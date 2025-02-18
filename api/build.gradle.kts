@@ -21,6 +21,12 @@ dependencyManagement {
     }
 }
 
-application {
-    mainClass.set("com.backjoon.MbtipsApplication")
+
+tasks.bootJar {
+    archiveBaseName.set("embitips")  // JAR 이름
+    archiveVersion.set("0.0.1")      // 버전
+    mainClass.set("com.mbtips.api.MbtipsApplication")
+}
+tasks.jar {
+    enabled = false
 }
