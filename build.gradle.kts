@@ -48,4 +48,14 @@ subprojects {
     tasks.test {
         useJUnitPlatform()
     }
+
+    tasks.bootJar {
+        archiveBaseName.set("embitips")  // JAR 이름
+        archiveVersion.set("0.0.1")      // 버전
+        mainClass.set("com.baekjoon.MbtipsApplication")
+    }
+    tasks.jar {
+        enabled = false
+    }
+
 }
