@@ -33,3 +33,6 @@ tasks.named("clean") {
         file(querydslDir).deleteRecursively()
     }
 }
+tasks.bootJar {
+    enabled = false
+}
