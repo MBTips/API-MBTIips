@@ -22,5 +22,5 @@ dependencyManagement {
 }
 
 application {
-    mainClass = 'api.src.main.java.com.backjoon'
+    mainClass.set("com.backjoon.MbtipsApplication")
 }
