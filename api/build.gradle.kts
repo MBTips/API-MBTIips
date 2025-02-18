@@ -20,3 +20,7 @@ dependencyManagement {
         mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
     }
 }
+
+application {
+    mainClass = 'api.src.main.java.com.backjoon'
+}
