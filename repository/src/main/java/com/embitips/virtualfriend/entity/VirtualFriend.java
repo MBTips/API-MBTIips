@@ -1,6 +1,6 @@
-package com.embitips.virtualfriend;
+package com.embitips.virtualfriend.entity;
 
-import com.embitips.user.User;
+import com.embitips.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
