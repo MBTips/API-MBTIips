@@ -6,3 +6,6 @@ dependencies {
     // Jasypt
     implementation("com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5")
 }
+tasks.bootJar {
+    enabled = false
+}
