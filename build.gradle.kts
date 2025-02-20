@@ -52,7 +52,7 @@ subprojects {
 tasks.bootJar {
     archiveBaseName.set("embitips")  // JAR 이름
     archiveVersion.set("0.0.1")      // 버전
-    mainClass.set("api.com.baekjoon.MbtipsApplication")
+    mainClass.set("api.com.mbtips.MbtipsApplication")
 }
 tasks.jar {
     enabled = false
