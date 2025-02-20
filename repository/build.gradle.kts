@@ -5,7 +5,7 @@ dependencies {
     runtimeOnly("com.mysql:mysql-connector-j")
 
     // JPA
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    api("org.springframework.boot:spring-boot-starter-data-jpa")
 
     // QueryDsl
     implementation("com.querydsl:querydsl-jpa:5.1.0:jakarta")
