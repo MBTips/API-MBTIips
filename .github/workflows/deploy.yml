@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - feature/issue-4
 
 jobs:
   CI-CD:
@@ -29,8 +28,7 @@ jobs:
 
       # docker build & push to production
       - name: Docker build & push to prod
-        #        if: contains(github.ref, 'main')
-        if: github.ref == 'refs/heads/feature/issue-4'
+        if: contains(github.ref, 'main')
         run: |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           docker build -f Dockerfile -t ${{ secrets.DOCKER_USERNAME }}/embitips_back .
@@ -40,8 +38,7 @@ jobs:
       - name: Deploy to prod
         uses: appleboy/ssh-action@master
         id: deploy-prod
-        #        if: contains(github.ref, 'main')
-        if: github.ref == 'refs/heads/feature/issue-4'
+        if: contains(github.ref, 'main')
         with:
           host: ${{ secrets.HOST_PROD }} # EC2 퍼블릭 IPv4 DNS
           username: ${{ secrets.USERNAME }}
