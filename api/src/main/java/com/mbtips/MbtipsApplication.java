@@ -5,11 +5,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 
 
-import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @ConfigurationPropertiesScan
-@EntityScan("com.embitips")
+@EnableJpaRepositories(basePackages = {"com.mbtips"})
 public class MbtipsApplication {
 
     public static void main(String[] args) {
