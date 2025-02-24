@@ -1,0 +1,28 @@
+package com.mbtips.domain.virtualfriend;
+
+import com.mbtips.virtualfriend.entity.VirtualFriend;
+import com.mbtips.common.response.ApiResponse;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/virtualfriend")
+@Slf4j
+@RequiredArgsConstructor
+public class VirtualFriendController {
+
+    private final VirtualFriendService virtualFriendService;
+
+    @GetMapping
+    public ApiResponse<List<VirtualFriend>> getVirtualFriends(@RequestParam Long userId){
+        System.out.println("test");
+        log.debug("get VirtualFriends");
+        return virtualFriendService.getVirtualFriendsByUserId(userId);
+    }
+}
