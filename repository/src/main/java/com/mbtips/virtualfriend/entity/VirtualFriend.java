@@ -2,6 +2,7 @@ package com.mbtips.virtualfriend.entity;
 
 import com.mbtips.user.entity.User;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,6 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "virtual_friend")
+@Builder
 public class VirtualFriend {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,4 +43,6 @@ public class VirtualFriend {
 
     @Column(length = 20, nullable = false)
     private String virtualFriendRelationship;
+
+
 }
