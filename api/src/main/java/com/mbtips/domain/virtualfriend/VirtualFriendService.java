@@ -1,5 +1,7 @@
 package com.mbtips.domain.virtualfriend;
 
+import com.mbtips.conversation.entity.Conversation;
+import com.mbtips.domain.conversation.ConversationService;
 import com.mbtips.domain.virtualfriend.request.VirtualFriendRequest;
 import com.mbtips.user.entity.User;
 import com.mbtips.virtualfriend.VirtualFriendRepository;
@@ -15,6 +17,7 @@ import java.util.List;
 public class VirtualFriendService {
 
     private final VirtualFriendRepository virtualFriendRepository;
+    private final ConversationService conversationService;
     public ApiResponse<List<VirtualFriend>> getVirtualFriendsByUserId(Long userId) {
         List<VirtualFriend> friends = virtualFriendRepository.findByUserId(userId);
 
@@ -28,7 +31,7 @@ public class VirtualFriendService {
         VirtualFriend friend = VirtualFriendRequest.toEntity(req, user);
         VirtualFriend saveFriend = virtualFriendRepository.save(friend);
 
-
+        Conversation conversation = conversationService.createConversation(friend, user);
 
         return ApiResponse.success(saveFriend);
     }

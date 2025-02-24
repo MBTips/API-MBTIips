@@ -45,4 +45,7 @@ public class VirtualFriend {
     private String virtualFriendRelationship;
 
 
+    public VirtualFriend() {
+
+    }
 }

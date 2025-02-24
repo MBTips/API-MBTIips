@@ -3,6 +3,7 @@ package com.mbtips.conversation.entity;
 import com.mbtips.user.entity.User;
 import com.mbtips.virtualfriend.entity.VirtualFriend;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Table(name = "conversation")
-
+@Builder
 public class Conversation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,4 +33,7 @@ public class Conversation {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
+    public Conversation() {
+
+    }
 }
