@@ -1,5 +1,6 @@
 package com.mbtips.virtualfriend;
 
+import com.mbtips.user.entity.User;
 import com.mbtips.virtualfriend.entity.VirtualFriend;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -13,6 +14,6 @@ public interface VirtualFriendRepository extends JpaRepository<VirtualFriend, Lo
     @Query("select v from VirtualFriend v where v.user.userId = :userId")
     List<VirtualFriend> findByUserId(Long userId);
 
-    @Query("select v from VirtualFriend v where v.virtualFriendId = :friendId")
-    VirtualFriend findByFriendId(Long friendId);
+    @Query("select v from VirtualFriend v where v.virtualFriendId = :friendId and v.user = :user")
+    VirtualFriend findByFriendId(Long friendId, User user);
 }

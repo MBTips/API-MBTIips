@@ -1,13 +1,11 @@
 package com.mbtips.domain.virtualfriend;
 
-import com.mbtips.conversation.entity.Conversation;
 import com.mbtips.domain.conversation.ConversationService;
 import com.mbtips.domain.virtualfriend.request.VirtualFriendRequest;
+import com.mbtips.domain.virtualfriend.response.VirtualFriendResponse;
 import com.mbtips.user.entity.User;
 import com.mbtips.virtualfriend.VirtualFriendRepository;
-import com.mbtips.virtualfriend.dto.VirtualFriendDto;
 import com.mbtips.virtualfriend.entity.VirtualFriend;
-import com.mbtips.common.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,29 +21,44 @@ public class VirtualFriendService {
     private final ConversationService conversationService;
 
     @Transactional
-    public ApiResponse<List<VirtualFriendDto>> getVirtualFriendsByUserId(Long userId) {
+    public List<VirtualFriendResponse> getVirtualFriendsByUserId(Long userId) {
         List<VirtualFriend> friends = virtualFriendRepository.findByUserId(userId);
-        List<VirtualFriendDto> result = friends.stream().map(friend -> VirtualFriendDto.convertToDto(friend))
+        List<VirtualFriendResponse> result = friends.stream().map(friend -> VirtualFriendResponse.from(friend))
                 .collect(Collectors.toList());
-        return ApiResponse.success(result);
+        return result;
     }
 
-    public ApiResponse<VirtualFriend> createVirtualFriend(VirtualFriendRequest req) {
+    /**
+     * todo user탐색 추가
+     */
+    @Transactional
+    public VirtualFriendResponse createVirtualFriend(VirtualFriendRequest req, Long userId) {
+
         User user = new User();
         user.setUserEmail("test@naver.com");
-        user.setUserId(1L);
+        user.setUserId(userId);
+
         VirtualFriend friend = VirtualFriendRequest.toEntity(req, user);
         VirtualFriend saveFriend = virtualFriendRepository.save(friend);
 
-        Conversation conversation = conversationService.createConversation(friend, user);
+        conversationService.createConversation(friend, user);
 
-        return ApiResponse.success(saveFriend);
+        VirtualFriendResponse result = VirtualFriendResponse.from(saveFriend);
+        return result;
     }
-
+    /**
+     * todo user탐색 추가
+     */
     @Transactional
-    public void deleteVirtualFriend(Long friendId) {
-        VirtualFriend virtualFriend = virtualFriendRepository.findByFriendId(friendId);
+    public void deleteVirtualFriend(Long friendId, Long userId) {
+
+        User user = new User();
+        user.setUserEmail("test@naver.com");
+        user.setUserId(userId);
+
+        VirtualFriend virtualFriend = virtualFriendRepository.findByFriendId(friendId, user);
         conversationService.deleteConversation(virtualFriend);
         virtualFriendRepository.delete(virtualFriend);
+
     }
 }
