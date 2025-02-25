@@ -1,6 +1,7 @@
 package com.mbtips.domain.virtualfriend;
 
 import com.mbtips.domain.virtualfriend.request.VirtualFriendRequest;
+import com.mbtips.virtualfriend.dto.VirtualFriendDto;
 import com.mbtips.virtualfriend.entity.VirtualFriend;
 import com.mbtips.common.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ public class VirtualFriendController {
     private final VirtualFriendService virtualFriendService;
 
     @GetMapping
-    public ApiResponse<List<VirtualFriend>> getVirtualFriends(@RequestParam Long userId){
+    public ApiResponse<List<VirtualFriendDto>> getVirtualFriends(@RequestParam Long userId){
         System.out.println("test");
         log.debug("get VirtualFriends");
         return virtualFriendService.getVirtualFriendsByUserId(userId);
