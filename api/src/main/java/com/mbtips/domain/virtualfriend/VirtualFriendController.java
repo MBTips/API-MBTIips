@@ -29,4 +29,10 @@ public class VirtualFriendController {
     public ApiResponse<VirtualFriend> createVirtualFriend(@RequestBody VirtualFriendRequest virtualFriendRequest){
         return virtualFriendService.createVirtualFriend(virtualFriendRequest);
     }
+
+    @DeleteMapping("/{friendId}")
+    public ApiResponse<Void> deleteVirtualFriend(@PathVariable Long friendId){
+        virtualFriendService.deleteVirtualFriend(friendId);
+        return ApiResponse.success();
+    }
 }

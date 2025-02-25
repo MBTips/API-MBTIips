@@ -12,4 +12,7 @@ public interface VirtualFriendRepository extends JpaRepository<VirtualFriend, Lo
 
     @Query("select v from VirtualFriend v where v.user.userId = :userId")
     List<VirtualFriend> findByUserId(Long userId);
+
+    @Query("select v from VirtualFriend v where v.virtualFriendId = :friendId")
+    VirtualFriend findByFriendId(Long friendId);
 }

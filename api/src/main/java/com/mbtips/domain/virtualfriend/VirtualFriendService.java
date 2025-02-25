@@ -41,4 +41,11 @@ public class VirtualFriendService {
 
         return ApiResponse.success(saveFriend);
     }
+
+    @Transactional
+    public void deleteVirtualFriend(Long friendId) {
+        VirtualFriend virtualFriend = virtualFriendRepository.findByFriendId(friendId);
+        conversationService.deleteConversation(virtualFriend);
+        virtualFriendRepository.delete(virtualFriend);
+    }
 }
