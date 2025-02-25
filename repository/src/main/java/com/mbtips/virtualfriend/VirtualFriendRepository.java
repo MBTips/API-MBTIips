@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface VirtualFriendRepository extends JpaRepository<VirtualFriend, Long> {
@@ -15,5 +16,5 @@ public interface VirtualFriendRepository extends JpaRepository<VirtualFriend, Lo
     List<VirtualFriend> findByUserId(Long userId);
 
     @Query("select v from VirtualFriend v where v.virtualFriendId = :friendId and v.user = :user")
-    VirtualFriend findByFriendId(Long friendId, User user);
+    Optional<VirtualFriend> findByFriendId(Long friendId, User user);
 }

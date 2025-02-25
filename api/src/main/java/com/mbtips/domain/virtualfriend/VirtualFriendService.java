@@ -1,5 +1,6 @@
 package com.mbtips.domain.virtualfriend;
 
+import com.mbtips.common.exception.VirtualFriendNotFoundException;
 import com.mbtips.domain.conversation.ConversationService;
 import com.mbtips.domain.virtualfriend.request.VirtualFriendRequest;
 import com.mbtips.domain.virtualfriend.response.VirtualFriendResponse;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -56,7 +58,8 @@ public class VirtualFriendService {
         user.setUserEmail("test@naver.com");
         user.setUserId(userId);
 
-        VirtualFriend virtualFriend = virtualFriendRepository.findByFriendId(friendId, user);
+        VirtualFriend virtualFriend = virtualFriendRepository.findByFriendId(friendId, user)
+                .orElseThrow(() -> new VirtualFriendNotFoundException("가상 친구를 찾을 수 없습니다."));
         conversationService.deleteConversation(virtualFriend);
         virtualFriendRepository.delete(virtualFriend);
 
