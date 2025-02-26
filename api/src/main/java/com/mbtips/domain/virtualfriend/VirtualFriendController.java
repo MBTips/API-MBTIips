@@ -3,6 +3,7 @@ package com.mbtips.domain.virtualfriend;
 import com.mbtips.domain.virtualfriend.request.VirtualFriendRequest;
 import com.mbtips.domain.virtualfriend.response.VirtualFriendResponse;
 import com.mbtips.common.response.ApiResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +32,7 @@ public class VirtualFriendController {
      *  todo - request validation 적용, 유저추출 적용
      */
     @PostMapping
-    public ApiResponse<VirtualFriendResponse> createVirtualFriend(@RequestBody VirtualFriendRequest virtualFriendRequest){
+    public ApiResponse<VirtualFriendResponse> createVirtualFriend(@Valid @RequestBody VirtualFriendRequest virtualFriendRequest){
         Long userId = 1L;
         VirtualFriendResponse result = virtualFriendService.createVirtualFriend(virtualFriendRequest, userId);
         return ApiResponse.success(result);

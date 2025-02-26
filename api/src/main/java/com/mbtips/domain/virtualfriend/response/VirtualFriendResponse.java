@@ -16,10 +16,10 @@ public record VirtualFriendResponse (
     public static VirtualFriendResponse from(VirtualFriend friend) {
         return new VirtualFriendResponse(
                 friend.getVirtualFriendId(),
-                friend.getEandi(),
-                friend.getNands(),
-                friend.getTandf(),
-                friend.getJandp(),
+                friend.getEorI(),
+                friend.getNorS(),
+                friend.getTorF(),
+                friend.getJorP(),
                 friend.getVirtualFriendName(),
                 friend.getVirtualFriendAge(),
                 friend.getVirtualFriendSex(),

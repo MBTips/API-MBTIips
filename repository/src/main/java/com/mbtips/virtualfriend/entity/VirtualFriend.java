@@ -21,16 +21,16 @@ public class VirtualFriend {
     private User user;
 
     @Column(nullable = false)
-    private String eandi;
+    private String EorI;
 
     @Column(nullable = false)
-    private String nands;
+    private String NorS;
 
     @Column(nullable = false)
-    private String tandf;
+    private String TorF;
 
     @Column(nullable = false)
-    private String jandp;
+    private String JorP;
 
     @Column(length = 20)
     private String virtualFriendName;
