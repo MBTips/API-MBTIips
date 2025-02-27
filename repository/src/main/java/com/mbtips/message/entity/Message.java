@@ -24,11 +24,11 @@ public class Message {
     private Conversation conversation;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "virtual_friend_id", nullable = false)
+    @JoinColumn(name = "virtual_friend_id")
     private VirtualFriend virtualFriend;
 
     @Column(length = 500, nullable = false)
@@ -38,7 +38,6 @@ public class Message {
     private LocalDateTime
             sentAt;
 
-    @Column(nullable = false)
     private Boolean isRead;
 
 }
