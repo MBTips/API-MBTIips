@@ -1,4 +1,4 @@
-package com.mbtips.virtualfriend.entity;
+package com.mbtips.fastfriend.entity;
 
 import com.mbtips.user.entity.User;
 import jakarta.persistence.*;
@@ -7,18 +7,14 @@ import lombok.*;
 @Entity
 @Getter
 @Setter
-@Table(name = "virtual_friend")
+@Table(name = "fast_friend")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class VirtualFriend {
+public class FastFriend {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long virtualFriendId;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private Long fastFriendId;
 
     @Column(nullable = false)
     private String EorI;
@@ -32,17 +28,15 @@ public class VirtualFriend {
     @Column(nullable = false)
     private String JorP;
 
-    @Column(length = 20, nullable = false)
-    private String virtualFriendName;
+    @Column(length = 20)
+    private String fastFriendName;
 
-    @Column(nullable = false)
-    private int virtualFriendAge;
+    @Column
+    private int fastFriendAge;
 
     @Column(length = 4, nullable = false)
-    private String virtualFriendSex;
+    private String fastFriendSex;
 
     @Column(length = 20, nullable = false)
-    private String virtualFriendRelationship;
-
-
+    private String fastFriendRelationship;
 }

@@ -4,10 +4,10 @@ import com.mbtips.virtualfriend.entity.VirtualFriend;
 
 public record VirtualFriendResponse (
         Long virtualFriendId,
-        String eandi,
-        String nands,
-        String tandf,
-        String jandp,
+        String EorI,
+        String NorS,
+        String TorF,
+        String JorP,
         String virtualFriendName,
         int virtualFriendAge,
         String virtualFriendSex,
