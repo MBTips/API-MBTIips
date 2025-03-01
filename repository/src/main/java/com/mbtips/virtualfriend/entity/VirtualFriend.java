@@ -1,14 +1,16 @@
-package com.embitips.virtualfriend.entity;
+package com.mbtips.virtualfriend.entity;
 
-import com.embitips.user.entity.User;
+import com.mbtips.user.entity.User;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "virtual_friend")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class VirtualFriend {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,21 +21,21 @@ public class VirtualFriend {
     private User user;
 
     @Column(nullable = false)
-    private String eandi;
+    private String EorI;
 
     @Column(nullable = false)
-    private String nands;
+    private String NorS;
 
     @Column(nullable = false)
-    private String tandf;
+    private String TorF;
 
     @Column(nullable = false)
-    private String jandp;
+    private String JorP;
 
-    @Column(length = 20)
+    @Column(length = 20, nullable = false)
     private String virtualFriendName;
 
-    @Column
+    @Column(nullable = false)
     private int virtualFriendAge;
 
     @Column(length = 4, nullable = false)
@@ -41,4 +43,6 @@ public class VirtualFriend {
 
     @Column(length = 20, nullable = false)
     private String virtualFriendRelationship;
+
+
 }

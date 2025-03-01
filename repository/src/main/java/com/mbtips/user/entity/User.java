@@ -1,4 +1,4 @@
-package com.embitips.user.entity;
+package com.mbtips.user.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;

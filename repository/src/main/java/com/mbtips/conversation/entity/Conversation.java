@@ -1,18 +1,20 @@
-package com.embitips.conversation.entity;
+package com.mbtips.conversation.entity;
 
-import com.embitips.user.entity.User;
-import com.embitips.virtualfriend.entity.VirtualFriend;
+import com.mbtips.user.entity.User;
+import com.mbtips.virtualfriend.entity.VirtualFriend;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "conversation")
-
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Conversation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,4 +34,15 @@ public class Conversation {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
+    @PrePersist
+    public void onCreate(){
+        LocalDateTime now = LocalDateTime.now();
+        this.createdAt = now;
+        this.updatedAt = now;
+    }
+
+    @PreUpdate
+    public void onUpdate(){
+        this.updatedAt = LocalDateTime.now();
+    }
 }

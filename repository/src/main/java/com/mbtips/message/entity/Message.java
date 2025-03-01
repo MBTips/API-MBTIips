@@ -1,8 +1,8 @@
-package com.embitips.message.entity;
+package com.mbtips.message.entity;
 
-import com.embitips.conversation.entity.Conversation;
-import com.embitips.user.entity.User;
-import com.embitips.virtualfriend.entity.VirtualFriend;
+import com.mbtips.conversation.entity.Conversation;
+import com.mbtips.user.entity.User;
+import com.mbtips.virtualfriend.entity.VirtualFriend;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,11 +24,11 @@ public class Message {
     private Conversation conversation;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "virtual_friend_id", nullable = false)
+    @JoinColumn(name = "virtual_friend_id")
     private VirtualFriend virtualFriend;
 
     @Column(length = 500, nullable = false)
@@ -38,7 +38,6 @@ public class Message {
     private LocalDateTime
             sentAt;
 
-    @Column(nullable = false)
     private Boolean isRead;
 
 }
