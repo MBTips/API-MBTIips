@@ -12,8 +12,14 @@ import java.util.Optional;
 @Repository
 public interface VirtualFriendRepository extends JpaRepository<VirtualFriend, Long> {
 
-    @Query("select v from VirtualFriend v where v.user.userId = :userId")
-    List<VirtualFriend> findByUserId(Long userId);
+    @Query("SELECT v, c.conversationId " +
+            "FROM VirtualFriend v " +
+            "LEFT JOIN Conversation c " +
+            "ON v.user.userId = c.user.userId " +
+            "AND v.virtualFriendId = c.virtualFriend.virtualFriendId " +
+            "WHERE v.user.userId = :userId")
+    List<Object[]> findvirtualFriendAndConversation(Long userId);
+
 
     @Query("select v from VirtualFriend v where v.virtualFriendId = :friendId and v.user = :user")
     Optional<VirtualFriend> findByFriendId(Long friendId, User user);

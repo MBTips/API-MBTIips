@@ -1,6 +1,7 @@
 package com.mbtips.domain.virtualfriend;
 
 import com.mbtips.common.exception.VirtualFriendNotFoundException;
+import com.mbtips.conversation.entity.Conversation;
 import com.mbtips.domain.conversation.ConversationService;
 import com.mbtips.domain.virtualfriend.request.VirtualFriendRequest;
 import com.mbtips.domain.virtualfriend.response.VirtualFriendResponse;
@@ -24,9 +25,12 @@ public class VirtualFriendService {
 
     @Transactional
     public List<VirtualFriendResponse> getVirtualFriendsByUserId(Long userId) {
-        List<VirtualFriend> friends = virtualFriendRepository.findByUserId(userId);
-        List<VirtualFriendResponse> result = friends.stream().map(friend -> VirtualFriendResponse.from(friend))
+        List<Object[]> friends = virtualFriendRepository.findvirtualFriendAndConversation(userId);
+
+        List<VirtualFriendResponse> result = friends.stream()
+                .map(row -> VirtualFriendResponse.from((VirtualFriend) row[0], (Long) row[1]))
                 .collect(Collectors.toList());
+
         return result;
     }
 
@@ -43,9 +47,9 @@ public class VirtualFriendService {
         VirtualFriend friend = VirtualFriendRequest.toEntity(req, user);
         VirtualFriend saveFriend = virtualFriendRepository.save(friend);
 
-        conversationService.createConversation(friend, user);
+        Conversation conversation = conversationService.createConversation(friend, user);
 
-        VirtualFriendResponse result = VirtualFriendResponse.from(saveFriend);
+        VirtualFriendResponse result = VirtualFriendResponse.from(saveFriend, conversation.getConversationId());
         return result;
     }
     /**
