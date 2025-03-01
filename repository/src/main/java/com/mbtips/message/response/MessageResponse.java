@@ -1,7 +1,5 @@
 package com.mbtips.message.response;
 
-import com.mbtips.message.entity.Message;
-
 import java.time.LocalDateTime;
 
 public record MessageResponse(

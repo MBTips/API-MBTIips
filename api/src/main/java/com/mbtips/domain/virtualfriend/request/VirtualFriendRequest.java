@@ -1,6 +1,6 @@
 package com.mbtips.domain.virtualfriend.request;
 
-import com.mbtips.user.entity.User;
+import com.mbtips.user.entity.UserEntity;
 import com.mbtips.virtualfriend.entity.VirtualFriend;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -35,9 +35,9 @@ public record VirtualFriendRequest(
         String JorP
 
         ){
-        public static VirtualFriend toEntity(VirtualFriendRequest req, User user) {
+        public static VirtualFriend toEntity(VirtualFriendRequest req, UserEntity userEntity) {
                 return VirtualFriend.builder()
-                        .user(user)
+                        .user(userEntity)
                         .virtualFriendName(req.userName)
                         .virtualFriendAge(req.age)
                         .virtualFriendRelationship(req.relationship)

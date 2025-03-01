@@ -2,7 +2,7 @@ package com.mbtips.domain.conversation;
 
 import com.mbtips.conversation.ConversationRepository;
 import com.mbtips.conversation.entity.Conversation;
-import com.mbtips.user.entity.User;
+import com.mbtips.user.entity.UserEntity;
 import com.mbtips.virtualfriend.entity.VirtualFriend;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,10 +14,10 @@ import org.springframework.stereotype.Service;
 public class ConversationService {
 
     private final ConversationRepository conversationRepository;
-    public Conversation createConversation(VirtualFriend friend, User user) {
+    public Conversation createConversation(VirtualFriend friend, UserEntity userEntity) {
         Conversation conversation = Conversation.builder()
                 .virtualFriend(friend)
-                .user(user).build();
+                .user(userEntity).build();
         Conversation saveConversation = conversationRepository.save(conversation);
         return saveConversation;
     }
