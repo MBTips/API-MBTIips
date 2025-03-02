@@ -1,5 +1,7 @@
 package com.mbtips.common.exception;
 
+import com.mbtips.common.exception.interfaces.ExceptionInterface;
+
 public class VirtualFriendNotFoundException extends CustomException{
     public VirtualFriendNotFoundException(String message) {
         super(new ExceptionInterface() {

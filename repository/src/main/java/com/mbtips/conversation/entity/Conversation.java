@@ -1,5 +1,6 @@
 package com.mbtips.conversation.entity;
 
+import com.mbtips.user.entity.UserEntity;
 import com.mbtips.virtualfriend.entity.VirtualFriend;
 import jakarta.persistence.*;
 import lombok.*;
@@ -21,11 +22,8 @@ public class Conversation {
     private Long conversationId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumns({
-            @JoinColumn(name = "platform", nullable = false, foreignKey = @ForeignKey(NO_CONSTRAINT)),
-            @JoinColumn(name = "platform_id", nullable = false, foreignKey = @ForeignKey(NO_CONSTRAINT))
-    })
-    private UserEntity1 userEntity1;
+    @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(NO_CONSTRAINT))
+    private UserEntity user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "virtual_friend_id", nullable = false, foreignKey = @ForeignKey(NO_CONSTRAINT))

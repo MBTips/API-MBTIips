@@ -12,7 +12,6 @@ import com.mbtips.virtualfriend.VirtualFriendRepository;
 import com.mbtips.virtualfriend.entity.VirtualFriend;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,7 +24,7 @@ public class VirtualFriendService {
     private final ConversationService conversationService;
     private final UserService userService;
 
-    public List<VirtualFriendResponse> getVirtualFriendsByUserId(Long userId) {
+    public List<VirtualFriendResponse> getVirtualFriendsByUserId(String userId) {
         List<Object[]> friends = virtualFriendRepository.findvirtualFriendAndConversation(userId);
 
         List<VirtualFriendResponse> result = friends.stream()
@@ -38,11 +37,10 @@ public class VirtualFriendService {
     /**
      * todo user탐색 추가
      */
-    public VirtualFriendResponse createVirtualFriend(VirtualFriendRequest req, Long userId) {
+    public VirtualFriendResponse createVirtualFriend(VirtualFriendRequest req, String userId) {
 
-        UserEntity userEntity = new UserEntity();
-        userEntity.setUserEmail("test@naver.com");
-        userEntity.setUserId(userId);
+        User user = userService.findById(userId);
+        UserEntity userEntity = new UserEntity(user);
 
         VirtualFriend friend = VirtualFriendRequest.toEntity(req, userEntity);
         VirtualFriend saveFriend = virtualFriendRepository.save(friend);
@@ -55,10 +53,10 @@ public class VirtualFriendService {
     /**
      * todo user탐색 추가
      */
-    public void deleteVirtualFriend(Long friendId, Long userId) {
+    public void deleteVirtualFriend(Long friendId, String userId) {
 
-        userEntity.setUserEmail("test@naver.com");
-        userEntity.setUserId(userId);
+        User user = userService.findById(userId);
+        UserEntity userEntity = new UserEntity(user);
 
         VirtualFriend virtualFriend = virtualFriendRepository.findByFriendId(friendId, userEntity)
                 .orElseThrow(() -> new VirtualFriendNotFoundException("가상 친구를 찾을 수 없습니다."));

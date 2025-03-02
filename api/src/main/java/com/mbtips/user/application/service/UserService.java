@@ -1,11 +1,13 @@
 package com.mbtips.user.application.service;
 
-import com.embitips.user.entity.UserEntityId;
+import com.mbtips.common.exception.CustomException;
 import com.mbtips.domain.user.User;
-import com.mbtips.domain.user.enums.Platform;
+import com.mbtips.domain.user.exception.UserException;
 import com.mbtips.user.interfaces.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -13,19 +15,13 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public User findById(UserEntityId id) {
-        return userRepository.findById(id);
+    public User joinAndLogin(String userId) {
+        Optional<User> user = userRepository.findById(userId);
+        return user.orElseGet(() -> userRepository.save(new User(userId)));
     }
 
-    public boolean isExist(UserEntityId userId) {
-        return userRepository.isExistById(userId);
-    }
-
-    public User save(Platform platform, long platformId) {
-        User user = User.builder()
-                .platform(platform)
-                .platformId(platformId)
-                .build();
-        return userRepository.save(user);
+    public User findById(String userId){
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(UserException.USER_NOT_FOUND));
     }
 }

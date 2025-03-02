@@ -18,7 +18,7 @@ public interface VirtualFriendRepository extends JpaRepository<VirtualFriend, Lo
             "ON v.user.userId = c.user.userId " +
             "AND v.virtualFriendId = c.virtualFriend.virtualFriendId " +
             "WHERE v.user.userId = :userId")
-    List<Object[]> findvirtualFriendAndConversation(Long userId);
+    List<Object[]> findvirtualFriendAndConversation(String userId);
 
 
     @Query("select v from VirtualFriend v where v.virtualFriendId = :friendId and v.user = :user")

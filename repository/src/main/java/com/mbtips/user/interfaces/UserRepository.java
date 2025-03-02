@@ -1,13 +1,14 @@
 package com.mbtips.user.interfaces;
 
-import com.embitips.user.entity.UserEntityId;
 import com.mbtips.domain.user.User;
+import com.mbtips.domain.user.enums.Platform;
+import com.mbtips.user.entity.UserEntity;
+
+import java.util.Optional;
 
 public interface UserRepository {
 
     User save(User user);
 
-    boolean isExistById(UserEntityId userId);
-
-    User findById(UserEntityId userId);
+    Optional<User> findById(String userId);
 }

@@ -9,6 +9,8 @@ import com.mbtips.kakao.dto.GetKakaoTokenResponseDto;
 import com.mbtips.kakao.dto.GetKakaoUserInfoResponseDto;
 import com.mbtips.user.application.dto.LoginUserRequestDto;
 import com.mbtips.user.application.manager.UserManager;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +28,7 @@ import static com.mbtips.domain.user.enums.Platform.KAKAO;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/kakao")
+@Tag(name = "회원 가입 및 로그인", description = "카카오 로그인 및 회원 가입")
 public class ApiLoginController {
 
     private final KakaoProperties kakaoProperties;
@@ -33,14 +36,15 @@ public class ApiLoginController {
     private final KakaoApiFeignClient kakaoApiFeignClient;
     private final UserManager userManager;
 
-
     @GetMapping("/authorize-url")
+    @Operation(summary = "카카오 로그인 인증 URL", description = "카카오 로그인 인증 URL 반환")
     public ApiResponse<String> getKakaoLoginUrl() {
         String kakaoLoginUrl = MessageFormat.format(kakaoProperties.authorizeUrl(), kakaoProperties.appKey(), kakaoProperties.redirectUrl());
         return ApiResponse.success(kakaoLoginUrl);
     }
 
     @GetMapping("/login")
+    @Operation(summary = "카카오 로그인 콜백 API(토큰 반환)", description = "카카오 로그인 및 회원 가입")
     public ApiResponse<String> kakaoLoginCallback(@RequestParam("code") String code) {
 
         GetKakaoTokenRequestDto kakaoTokenRequestDto = new GetKakaoTokenRequestDto(AUTHORIZATION_CODE, kakaoProperties.appKey(), kakaoProperties.redirectUrl(), code);

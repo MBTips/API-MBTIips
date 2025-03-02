@@ -1,6 +1,7 @@
 package com.mbtips.user.entity;
 
 import com.mbtips.domain.user.User;
+import com.mbtips.domain.user.enums.Platform;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,20 +13,16 @@ import lombok.*;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserEntity {
 
-    @EmbeddedId
-    private UserEntityId userId;
+    @Id
+    private String userId;
 
     public User toUser() {
         return User.builder()
-                .platform(this.userId.getPlatform())
-                .platformId(this.userId.getPlatformId())
+                .userId(this.userId)
                 .build();
     }
 
     public UserEntity(User user) {
-        this.userId = UserEntityId.builder()
-                .platform(user.getPlatform())
-                .platformId(user.getPlatformId())
-                .build();
+        this.userId = user.getUserId();
     }
 }

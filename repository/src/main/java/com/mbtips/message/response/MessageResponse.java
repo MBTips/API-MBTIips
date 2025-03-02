@@ -6,10 +6,10 @@ public record MessageResponse(
         Long messageId,
         String messageContent,
         LocalDateTime sentAt,
-        Long userId,
+        String userId,
         Long virtualFriendId
 ) {
-    public MessageResponse(Long messageId, String messageContent, LocalDateTime sentAt, Long userId, Long virtualFriendId) {
+    public MessageResponse(Long messageId, String messageContent, LocalDateTime sentAt, String userId, Long virtualFriendId) {
         this.messageId = messageId;
         this.messageContent = messageContent;
         this.sentAt = sentAt;
