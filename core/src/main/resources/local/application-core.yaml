@@ -1,0 +1,3 @@
+jwt:
+    secret: ENC(sSC+btxCYkHvPLQQhuMtDqg67p925zdtl3nKAnRmDzxLRZGu3uUVFcpnGrYPA8AwHH0jTd8T1ec=)
+    expiration: 3600000

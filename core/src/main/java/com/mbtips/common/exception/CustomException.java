@@ -1,5 +1,6 @@
 package com.mbtips.common.exception;
 
+import com.mbtips.common.exception.interfaces.ExceptionInterface;
 import lombok.Getter;
 
 @Getter
