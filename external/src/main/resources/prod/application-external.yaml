@@ -1,0 +1,9 @@
+spring:
+  cloud:
+    openfeign:
+      client:
+        config:
+          kakao-auth:
+            url: https://kauth.kakao.com
+          kakao-api:
+            url: https://kapi.kakao.com

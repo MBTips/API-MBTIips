@@ -1,6 +1,6 @@
 package com.mbtips.common.response;
 
-import com.mbtips.common.exception.ExceptionInterface;
+import com.mbtips.common.exception.interfaces.ExceptionInterface;
 
 public record ApiResponse<T>(
     Header header,

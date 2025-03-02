@@ -1,12 +1,13 @@
 package com.mbtips.conversation.entity;
 
-import com.mbtips.user.entity.User;
+import com.mbtips.user.entity.UserEntity;
 import com.mbtips.virtualfriend.entity.VirtualFriend;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+
+import static jakarta.persistence.ConstraintMode.NO_CONSTRAINT;
 
 @Entity
 @Getter
@@ -21,11 +22,11 @@ public class Conversation {
     private Long conversationId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(NO_CONSTRAINT))
+    private UserEntity user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "virtual_friend_id", nullable = false)
+    @JoinColumn(name = "virtual_friend_id", nullable = false, foreignKey = @ForeignKey(NO_CONSTRAINT))
     private VirtualFriend virtualFriend;
 
     @Column(nullable = false)

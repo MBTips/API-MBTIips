@@ -1,5 +1,7 @@
 package com.mbtips.domain.virtualfriend;
 
+import com.mbtips.common.annotation.LoginUser;
+import com.mbtips.domain.user.User;
 import com.mbtips.domain.virtualfriend.request.VirtualFriendRequest;
 import com.mbtips.domain.virtualfriend.response.VirtualFriendResponse;
 import com.mbtips.common.response.ApiResponse;
@@ -12,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/virtualfriend")
+@RequestMapping("/api/virtual-friend")
 @Slf4j
 @RequiredArgsConstructor
 public class VirtualFriendController {
@@ -20,35 +22,34 @@ public class VirtualFriendController {
     private final VirtualFriendService virtualFriendService;
 
     /**
-     * todo - userId 추출하여 service전달
+     * 
      */
     @GetMapping
     @Operation(summary = "가상친구, 채팅방 리스트 조회", description = "userId기준으로 채팅방+가상친구 리스트를 조회합니다.")
-    public ApiResponse<List<VirtualFriendResponse>> getVirtualFriends(@RequestParam Long userId){
+    public ApiResponse<List<VirtualFriendResponse>> getVirtualFriends(@LoginUser User user){
         log.debug(" <<< get virtualFriend List >>>");
-        List<VirtualFriendResponse> result = virtualFriendService.getVirtualFriendsByUserId(userId);
+        List<VirtualFriendResponse> result = virtualFriendService.getVirtualFriendsByUserId(user.getUserId());
         return ApiResponse.success(result);
     }
 
     /**
-     *  todo - request validation 적용, 유저추출 적용
+     *  todo - request validation 적용
      */
     @PostMapping
     @Operation(summary = "가상친구 생성", description = "가상친구 생성을 요청하며, 채팅방이 생성됩니다.")
-    public ApiResponse<VirtualFriendResponse> createVirtualFriend(@Valid @RequestBody VirtualFriendRequest virtualFriendRequest){
-        Long userId = 1L;
-        VirtualFriendResponse result = virtualFriendService.createVirtualFriend(virtualFriendRequest, userId);
+    public ApiResponse<VirtualFriendResponse> createVirtualFriend(@Valid @RequestBody VirtualFriendRequest virtualFriendRequest,
+                                                                  @LoginUser User user){
+        VirtualFriendResponse result = virtualFriendService.createVirtualFriend(virtualFriendRequest, user.getUserId());
         return ApiResponse.success(result);
     }
 
     /**
-     * todo - 유저추출 적용
+     *
      */
     @DeleteMapping("/{friendId}")
     @Operation(summary = "가상친구 삭제", description = "가상친구가 삭제되며, 채팅방이 삭제됩니다.")
-    public ApiResponse<Void> deleteVirtualFriend(@PathVariable Long friendId){
-        Long userId = 1L;
-        virtualFriendService.deleteVirtualFriend(friendId, userId);
+    public ApiResponse<Void> deleteVirtualFriend(@PathVariable Long friendId, @LoginUser User user){
+        virtualFriendService.deleteVirtualFriend(friendId, user.getUserId());
         return ApiResponse.success();
     }
 }

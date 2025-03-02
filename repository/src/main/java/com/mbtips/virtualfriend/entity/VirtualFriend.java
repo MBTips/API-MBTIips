@@ -1,8 +1,10 @@
 package com.mbtips.virtualfriend.entity;
 
-import com.mbtips.user.entity.User;
+import com.mbtips.user.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
+
+import static jakarta.persistence.ConstraintMode.NO_CONSTRAINT;
 
 @Entity
 @Getter
@@ -17,8 +19,8 @@ public class VirtualFriend {
     private Long virtualFriendId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(NO_CONSTRAINT))
+    private UserEntity user;
 
     @Column(nullable = false)
     private String EorI;

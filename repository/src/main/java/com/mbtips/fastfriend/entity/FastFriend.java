@@ -1,6 +1,5 @@
 package com.mbtips.fastfriend.entity;
 
-import com.mbtips.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 

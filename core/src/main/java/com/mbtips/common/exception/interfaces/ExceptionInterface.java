@@ -1,4 +1,4 @@
-package com.mbtips.common.exception;
+package com.mbtips.common.exception.interfaces;
 
 public interface ExceptionInterface {
 

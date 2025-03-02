@@ -4,8 +4,9 @@ extra["springCloudVersion"] = "2024.0.0"
 dependencies {
     implementation(project(mapOf("path" to ":core")))
 
-    // Spring Context
-    implementation("org.springframework:spring-context:6.2.2")
+    // Jackson
+    implementation("com.fasterxml.jackson.core:jackson-databind")
+
     // Open Feign
     implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
 }

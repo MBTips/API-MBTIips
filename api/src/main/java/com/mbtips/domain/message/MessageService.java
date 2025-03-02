@@ -2,7 +2,6 @@ package com.mbtips.domain.message;
 
 import com.mbtips.message.response.MessageResponse;
 import com.mbtips.message.MessageRepository;
-import com.mbtips.message.entity.Message;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -1,13 +1,15 @@
 package com.mbtips.message.entity;
 
 import com.mbtips.conversation.entity.Conversation;
-import com.mbtips.user.entity.User;
+import com.mbtips.user.entity.UserEntity;
 import com.mbtips.virtualfriend.entity.VirtualFriend;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+
+import static jakarta.persistence.ConstraintMode.NO_CONSTRAINT;
 
 @Entity
 @Getter
@@ -20,23 +22,22 @@ public class Message {
     private Long messageId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "conversation_id", nullable = false)
+    @JoinColumn(name = "conversation_id", nullable = false, foreignKey = @ForeignKey(NO_CONSTRAINT))
     private Conversation conversation;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(NO_CONSTRAINT))
+    private UserEntity user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "virtual_friend_id")
+    @JoinColumn(name = "virtual_friend_id", nullable = false, foreignKey = @ForeignKey(NO_CONSTRAINT))
     private VirtualFriend virtualFriend;
 
     @Column(length = 500, nullable = false)
     private String messageContent;
 
     @Column(nullable = false)
-    private LocalDateTime
-            sentAt;
+    private LocalDateTime sentAt;
 
     private Boolean isRead;
 
