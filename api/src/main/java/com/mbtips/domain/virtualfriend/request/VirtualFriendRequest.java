@@ -7,6 +7,8 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
+import java.util.List;
+
 public record VirtualFriendRequest(
         Long userId,
 
@@ -32,7 +34,9 @@ public record VirtualFriendRequest(
         String TorF,
 
         @Pattern(regexp = "J|P", message = "J 또는 P중 하나이어야 합니다.")
-        String JorP
+        String JorP,
+
+        List<String> interests
 
         ){
         public static VirtualFriend toEntity(VirtualFriendRequest req, UserEntity userEntity) {
