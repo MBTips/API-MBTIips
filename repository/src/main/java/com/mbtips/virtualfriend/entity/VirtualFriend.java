@@ -23,16 +23,7 @@ public class VirtualFriend {
     private UserEntity user;
 
     @Column(nullable = false)
-    private String EorI;
-
-    @Column(nullable = false)
-    private String NorS;
-
-    @Column(nullable = false)
-    private String TorF;
-
-    @Column(nullable = false)
-    private String JorP;
+    private String mbti;
 
     @Column(length = 20, nullable = false)
     private String virtualFriendName;

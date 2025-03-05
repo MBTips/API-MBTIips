@@ -1,5 +1,6 @@
 package com.mbtips.domain.virtualfriend.request;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.mbtips.user.entity.UserEntity;
 import com.mbtips.virtualfriend.entity.VirtualFriend;
 import jakarta.validation.constraints.Max;
@@ -9,10 +10,10 @@ import jakarta.validation.constraints.Pattern;
 
 import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public record VirtualFriendRequest(
-        Long userId,
 
-        String userName,
+        String friendName,
 
         @Min(value = 1, message = "나이는 1 이상이어야 합니다.")
         @Max(value = 100, message = "나이는 100 이하이어야 합니다.")
@@ -24,32 +25,22 @@ public record VirtualFriendRequest(
         @Pattern(regexp = "M|F", message = "성별은 M 또는 F만 가능합니다.")
         String sex,
 
-        @Pattern(regexp = "E|I", message = "E 또는 I중 하나이어야 합니다.")
-        String EorI,
-
-        @Pattern(regexp = "N|S", message = "N 또는 S중 하나이어야 합니다.")
-        String NorS,
-
-        @Pattern(regexp = "T|F", message = "T 또는 F중 하나이어야 합니다.")
-        String TorF,
-
-        @Pattern(regexp = "J|P", message = "J 또는 P중 하나이어야 합니다.")
-        String JorP,
+        @Pattern(
+                regexp = "^(INTJ|INTP|ENTJ|ENTP|INFJ|INFP|ENFJ|ENFP|ISTJ|ISFJ|ESTJ|ESFJ|ISTP|ISFP|ESTP|ESFP)$",
+                message = "유효하지 않은 mbti입니다. 16가지중 하나를 입력해주세요."
+        )
+        String mbti,
 
         List<String> interests
-
         ){
         public static VirtualFriend toEntity(VirtualFriendRequest req, UserEntity userEntity) {
                 return VirtualFriend.builder()
                         .user(userEntity)
-                        .virtualFriendName(req.userName)
+                        .virtualFriendName(req.friendName)
                         .virtualFriendAge(req.age)
                         .virtualFriendRelationship(req.relationship)
                         .virtualFriendSex(req.sex)
-                        .EorI(req.EorI)
-                        .JorP(req.JorP)
-                        .NorS(req.NorS)
-                        .TorF(req.TorF)
+                        .mbti(req.mbti)
                         .build();
 
         }

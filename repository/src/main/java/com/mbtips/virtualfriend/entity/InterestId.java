@@ -9,6 +9,8 @@ import lombok.Setter;
 import java.io.Serializable;
 
 @Embeddable
+@AllArgsConstructor
+@NoArgsConstructor
 public class InterestId implements Serializable {
     private Long virtualFriendId;
     private String topic;

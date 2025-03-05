@@ -1,6 +1,7 @@
 package com.mbtips.kakao.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.ToString;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record GetKakaoUserInfoResponseDto(

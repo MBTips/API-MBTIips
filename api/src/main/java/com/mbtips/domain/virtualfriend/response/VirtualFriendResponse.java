@@ -18,7 +18,7 @@ public record VirtualFriendResponse (
         return new VirtualFriendResponse(
                 friend.getVirtualFriendId(),
                 conversationId,
-                findMBTI(friend),
+                friend.getMbti(),
                 friend.getVirtualFriendName(),
                 friend.getVirtualFriendAge(),
                 friend.getVirtualFriendSex(),
@@ -26,12 +26,4 @@ public record VirtualFriendResponse (
         );
     }
 
-    private static String findMBTI(VirtualFriend friend) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(friend.getEorI());
-        sb.append(friend.getNorS());
-        sb.append(friend.getTorF());
-        sb.append(friend.getJorP());
-        return sb.toString();
-    }
 }
