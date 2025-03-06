@@ -39,13 +39,11 @@ public class VirtualFriendController {
     @Operation(summary = "가상친구 생성", description = "가상친구 생성을 요청하며, 채팅방이 생성됩니다.")
     public ApiResponse<VirtualFriendResponse> createVirtualFriend(@Valid @RequestBody VirtualFriendRequest virtualFriendRequest,
                                                                   @LoginUser User user){
+        log.debug("virtualFriendReuqest : {}", virtualFriendRequest);
         VirtualFriendResponse result = virtualFriendService.createVirtualFriend(virtualFriendRequest, user.getUserId());
         return ApiResponse.success(result);
     }
 
-    /**
-     *
-     */
     @DeleteMapping("/{friendId}")
     @Operation(summary = "가상친구 삭제", description = "가상친구가 삭제되며, 채팅방이 삭제됩니다.")
     public ApiResponse<Void> deleteVirtualFriend(@PathVariable Long friendId, @LoginUser User user){

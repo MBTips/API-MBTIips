@@ -8,11 +8,15 @@ import com.mbtips.domain.virtualfriend.request.VirtualFriendRequest;
 import com.mbtips.domain.virtualfriend.response.VirtualFriendResponse;
 import com.mbtips.user.application.service.UserService;
 import com.mbtips.user.entity.UserEntity;
+import com.mbtips.virtualfriend.InterestRepository;
 import com.mbtips.virtualfriend.VirtualFriendRepository;
+import com.mbtips.virtualfriend.entity.Interest;
+import com.mbtips.virtualfriend.entity.InterestId;
 import com.mbtips.virtualfriend.entity.VirtualFriend;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,6 +27,7 @@ public class VirtualFriendService {
     private final VirtualFriendRepository virtualFriendRepository;
     private final ConversationService conversationService;
     private final UserService userService;
+    private final InterestRepository interestRepository;
 
     public List<VirtualFriendResponse> getVirtualFriendsByUserId(String userId) {
         List<Object[]> friends = virtualFriendRepository.findvirtualFriendAndConversation(userId);
@@ -44,6 +49,15 @@ public class VirtualFriendService {
 
         VirtualFriend friend = VirtualFriendRequest.toEntity(req, userEntity);
         VirtualFriend saveFriend = virtualFriendRepository.save(friend);
+
+        List<Interest> interests = new ArrayList<>();
+        for(String topic : req.interests()){
+            interests.add(Interest.builder()
+                    .virtualFriend(saveFriend)
+                    .interestId(new InterestId(saveFriend.getVirtualFriendId(), topic))
+                    .build());
+        }
+        interestRepository.saveAll(interests);
 
         Conversation conversation = conversationService.createConversation(friend, userEntity);
 

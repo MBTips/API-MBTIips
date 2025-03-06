@@ -5,10 +5,7 @@ import com.mbtips.virtualfriend.entity.VirtualFriend;
 public record VirtualFriendResponse (
         Long virtualFriendId,
         Long conversationId,
-        String EorI,
-        String NorS,
-        String TorF,
-        String JorP,
+        String mbti,
         String virtualFriendName,
         int virtualFriendAge,
         String virtualFriendSex,
@@ -21,14 +18,12 @@ public record VirtualFriendResponse (
         return new VirtualFriendResponse(
                 friend.getVirtualFriendId(),
                 conversationId,
-                friend.getEorI(),
-                friend.getNorS(),
-                friend.getTorF(),
-                friend.getJorP(),
+                friend.getMbti(),
                 friend.getVirtualFriendName(),
                 friend.getVirtualFriendAge(),
                 friend.getVirtualFriendSex(),
                 friend.getVirtualFriendRelationship()
         );
     }
+
 }

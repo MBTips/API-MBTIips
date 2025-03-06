@@ -4,10 +4,7 @@ import com.mbtips.fastfriend.entity.FastFriend;
 
 public record FastFriendResponse (
         Long fastFriendId,
-        String EorI,
-        String NorS,
-        String TorF,
-        String JorP,
+        String mbti,
         String fastFriendName,
         int fastFriendAge,
         String fastFriendSex,
@@ -17,10 +14,7 @@ public record FastFriendResponse (
     public static FastFriendResponse from(FastFriend saveFriend) {
         return new FastFriendResponse(
                 saveFriend.getFastFriendId(),
-                saveFriend.getEorI(),
-                saveFriend.getNorS(),
-                saveFriend.getTorF(),
-                saveFriend.getJorP(),
+                saveFriend.getMbti(),
                 saveFriend.getFastFriendName(),
                 saveFriend.getFastFriendAge(),
                 saveFriend.getFastFriendSex(),
