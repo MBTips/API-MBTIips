@@ -1,5 +1,8 @@
 package com.mbtips.domain.fastfriend.service;
 
+import com.mbtips.clova.client.ClovaApiFeignClient;
+import com.mbtips.clova.dto.ChatRequest;
+import com.mbtips.clova.dto.Message;
 import com.mbtips.domain.fastfriend.controller.dto.request.FastFriendMessageRequest;
 import com.mbtips.domain.fastfriend.controller.dto.request.FastFriendRequest;
 import com.mbtips.domain.fastfriend.controller.dto.response.FastFriendResponse;
@@ -10,12 +13,17 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class FastFriendService {
     private final FastFriendRepository fastFriendRepository;
+    private final ClovaApiFeignClient clovaApiFeignClient;
 
+    private static final String API_KEY = "";
     /**
      * to-do
      * - 가상친구생성api 호출 로직 작성
@@ -29,8 +37,14 @@ public class FastFriendService {
     }
 
     public String messageRequest(FastFriendMessageRequest request) {
-
-        String result = "빠른 대화친구의 메시지 응답입니다.";
-        return result;
+        Message message = new Message("user", request.content());
+        ChatRequest chatRequest = new ChatRequest(Arrays.asList(message));
+        String responseMessage = clovaApiFeignClient.getResponse(
+                "Bearer " + API_KEY,
+                UUID.randomUUID().toString(),
+                chatRequest
+        );
+        log.debug(responseMessage);
+        return responseMessage;
     }
 }
