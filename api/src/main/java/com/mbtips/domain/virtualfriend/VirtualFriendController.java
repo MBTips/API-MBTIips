@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/virtual-friend")
-@Slf4j
 @RequiredArgsConstructor
 public class VirtualFriendController {
 
