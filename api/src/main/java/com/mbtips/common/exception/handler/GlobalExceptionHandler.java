@@ -4,6 +4,7 @@ import com.mbtips.common.exception.CustomException;
 import com.mbtips.common.exception.enums.CommonException;
 import com.mbtips.common.response.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -17,21 +18,21 @@ import java.util.stream.Collectors;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(CustomException.class)
-    public ApiResponse<Void> customExceptionHandler(CustomException e) {
+    public ResponseEntity<Void> customExceptionHandler(CustomException e) {
         log.error("### CustomExceptionHandler : {}", e.getMessage(), e);
-        return ApiResponse.fail(e.getException());
+        return ResponseEntity.internalServerError().build();
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ApiResponse<Void> exceptionHandler(IllegalArgumentException e) {
+    public ResponseEntity<Void> exceptionHandler(IllegalArgumentException e) {
         log.error("### IllegalArgumentExceptionHandler : {}", e.getMessage(), e);
-        return ApiResponse.fail(CommonException.INVALID_REQUEST_ERROR);
+        return ResponseEntity.badRequest().build();
     }
 
     @ExceptionHandler(Exception.class)
-    public ApiResponse<Void> exceptionHandler(Exception e) {
+    public ResponseEntity<Void> exceptionHandler(Exception e) {
         log.error("### ExceptionHandler : {}", e.getMessage(), e);
-        return ApiResponse.fail(CommonException.INTERNAL_SERVER_ERROR);
+        return ResponseEntity.internalServerError().build();
     }
 
     /**
