@@ -7,17 +7,20 @@ import com.mbtips.domain.fastfriend.controller.dto.response.FastFriendResponse;
 import com.mbtips.domain.fastfriend.service.FastFriendService;
 import com.mbtips.message.response.MessageResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/fastfriend")
+@SecurityRequirements
 @RequiredArgsConstructor
+@RequestMapping("/api/fast-friend")
 public class FastFriendController {
 
     private final FastFriendService fastFriendService;
+
     @PostMapping
     @Operation(summary = "빠른대화 생성", description = "빠른 대화 생성을 요청한 후 가상친구Id를 반환받습니다.")
     public ApiResponse<Long> createFastFriendRequest(@Valid @RequestBody FastFriendRequest fastFriendRequest){
