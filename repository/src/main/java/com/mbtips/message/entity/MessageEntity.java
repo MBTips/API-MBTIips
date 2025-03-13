@@ -1,11 +1,11 @@
 package com.mbtips.message.entity;
 
-import com.mbtips.conversation.entity.Conversation;
+import com.mbtips.conversation.entity.ConversationEntity;
+import com.mbtips.domain.message.Message;
 import com.mbtips.user.entity.UserEntity;
-import com.mbtips.virtualfriend.entity.VirtualFriend;
+import com.mbtips.virtualfriend.entity.VirtualFriendEntity;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -13,9 +13,10 @@ import static jakarta.persistence.ConstraintMode.NO_CONSTRAINT;
 
 @Entity
 @Getter
-@Setter
 @Table(name = "message")
-public class Message {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+public class MessageEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +24,7 @@ public class Message {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "conversation_id", nullable = false, foreignKey = @ForeignKey(NO_CONSTRAINT))
-    private Conversation conversation;
+    private ConversationEntity conversationEntity;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(NO_CONSTRAINT))
@@ -31,7 +32,7 @@ public class Message {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "virtual_friend_id", nullable = false, foreignKey = @ForeignKey(NO_CONSTRAINT))
-    private VirtualFriend virtualFriend;
+    private VirtualFriendEntity virtualFriendEntity;
 
     @Column(length = 500, nullable = false)
     private String messageContent;
@@ -40,5 +41,14 @@ public class Message {
     private LocalDateTime sentAt;
 
     private Boolean isRead;
+
+    public MessageEntity(Message message) {
+        this.messageId = message.getMessageId();
+        this.conversationEntity = new ConversationEntity(message.getConversation());
+        this.user = new UserEntity(message.getUser());
+        this.virtualFriendEntity = new VirtualFriendEntity(message.getVirtualFriend());
+        this.messageContent = message.getMessageContent();
+        this.sentAt = LocalDateTime.now();
+    }
 
 }

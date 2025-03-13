@@ -1,6 +1,8 @@
 package com.mbtips.domain.virtualfriend.response;
 
-import com.mbtips.virtualfriend.entity.VirtualFriend;
+import com.mbtips.domain.converstation.Conversation;
+import com.mbtips.domain.virtualfriend.VirtualFriend;
+import com.mbtips.domain.virtualfriend.enums.Gender;
 
 public record VirtualFriendResponse (
         Long virtualFriendId,
@@ -8,21 +10,18 @@ public record VirtualFriendResponse (
         String mbti,
         String virtualFriendName,
         int virtualFriendAge,
-        String virtualFriendSex,
+        Gender virtualFriendSex,
         String virtualFriendRelationship
 ){
-    public VirtualFriendResponse VirtualFriendResponse(VirtualFriend friend, Long conversationId) {
-        return from(friend, conversationId);
-    }
-    public static VirtualFriendResponse from(VirtualFriend friend ,Long conversationId) {
+    public static VirtualFriendResponse from(VirtualFriend virtualFriend , long conversationId) {
         return new VirtualFriendResponse(
-                friend.getVirtualFriendId(),
+                virtualFriend.getVirtualFriendId(),
                 conversationId,
-                friend.getMbti(),
-                friend.getVirtualFriendName(),
-                friend.getVirtualFriendAge(),
-                friend.getVirtualFriendSex(),
-                friend.getVirtualFriendRelationship()
+                virtualFriend.getMbti(),
+                virtualFriend.getName(),
+                virtualFriend.getAge(),
+                virtualFriend.getGender(),
+                virtualFriend.getRelationship()
         );
     }
 

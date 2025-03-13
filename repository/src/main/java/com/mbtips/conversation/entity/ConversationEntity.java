@@ -1,7 +1,8 @@
 package com.mbtips.conversation.entity;
 
+import com.mbtips.domain.converstation.Conversation;
 import com.mbtips.user.entity.UserEntity;
-import com.mbtips.virtualfriend.entity.VirtualFriend;
+import com.mbtips.virtualfriend.entity.VirtualFriendEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,7 +17,7 @@ import static jakarta.persistence.ConstraintMode.NO_CONSTRAINT;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Conversation {
+public class ConversationEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long conversationId;
@@ -27,7 +28,7 @@ public class Conversation {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "virtual_friend_id", nullable = false, foreignKey = @ForeignKey(NO_CONSTRAINT))
-    private VirtualFriend virtualFriend;
+    private VirtualFriendEntity virtualFriendEntity;
 
     @Column(nullable = false)
     private LocalDateTime createdAt;
@@ -45,5 +46,19 @@ public class Conversation {
     @PreUpdate
     public void onUpdate(){
         this.updatedAt = LocalDateTime.now();
+    }
+
+    public ConversationEntity(Conversation conversation){
+        this.conversationId = conversation.getConversationId();
+        this.user = new UserEntity(conversation.getUser());
+        this.virtualFriendEntity = new VirtualFriendEntity(conversation.getVirtualFriend());
+    }
+
+    public Conversation toDomain() {
+        return Conversation.builder()
+                .conversationId(conversationId)
+                .user(user.toDomain())
+                .virtualFriend(virtualFriendEntity.toDomain())
+                .build();
     }
 }

@@ -3,13 +3,10 @@ package com.mbtips.domain.fastfriend.controller;
 import com.mbtips.common.response.ApiResponse;
 import com.mbtips.domain.fastfriend.controller.dto.request.FastFriendMessageRequest;
 import com.mbtips.domain.fastfriend.controller.dto.request.FastFriendRequest;
-import com.mbtips.domain.fastfriend.controller.dto.response.FastFriendResponse;
 import com.mbtips.domain.fastfriend.service.FastFriendService;
-import com.mbtips.message.response.MessageResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import jakarta.validation.Valid;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

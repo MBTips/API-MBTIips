@@ -1,19 +1,16 @@
 package com.mbtips.virtualfriend.entity;
 
 import jakarta.persistence.Embeddable;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 
+@Getter
+@Builder
 @Embeddable
 @AllArgsConstructor
 @NoArgsConstructor
 public class InterestId implements Serializable {
     private Long virtualFriendId;
     private String topic;
-
-
 }

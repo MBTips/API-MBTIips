@@ -17,11 +17,11 @@ public class UserRepositoryImpl implements UserRepository {
 
     public User save(User user) {
         return userJpaRepository.save(new UserEntity(user))
-                .toUser();
+                .toDomain();
     }
 
     public Optional<User> findById(String userId) {
         return userJpaRepository.findById(userId)
-                .map(UserEntity::toUser);
+                .map(UserEntity::toDomain);
     }
 }
