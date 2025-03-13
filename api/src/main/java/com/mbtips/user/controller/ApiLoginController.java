@@ -10,6 +10,7 @@ import com.mbtips.kakao.dto.GetKakaoUserInfoResponseDto;
 import com.mbtips.user.application.dto.LoginUserRequestDto;
 import com.mbtips.user.application.manager.UserManager;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,7 @@ import static com.mbtips.domain.user.enums.Platform.KAKAO;
 
 @Slf4j
 @RestController
+@SecurityRequirements
 @RequiredArgsConstructor
 @RequestMapping("/api/kakao")
 @Tag(name = "회원 가입 및 로그인", description = "카카오 로그인 및 회원 가입")

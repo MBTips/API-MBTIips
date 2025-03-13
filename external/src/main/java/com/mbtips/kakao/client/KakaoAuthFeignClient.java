@@ -1,10 +1,8 @@
 package com.mbtips.kakao.client;
 
 import com.mbtips.kakao.configuration.KakaoFeignConfiguration;
-import com.mbtips.kakao.dto.GetKakaoTokenRequestDto;
 import com.mbtips.kakao.dto.GetKakaoTokenResponseDto;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.cloud.openfeign.SpringQueryMap;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 

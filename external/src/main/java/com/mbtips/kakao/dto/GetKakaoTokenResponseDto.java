@@ -1,14 +1,13 @@
 package com.mbtips.kakao.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public record GetKakaoTokenResponseDto(
-        String tokenType,
-        String accessToken,
-        String idToken,
-        Integer expiresIn,
-        String refreshToken,
-        Integer refreshTokenExpiresIn,
-        String scope
+        @JsonProperty("access_token")
+        String accessToken
 )
 {
 }
