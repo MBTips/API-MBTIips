@@ -1,18 +1,14 @@
 package com.mbtips.domain.virtualfriend;
 
-import com.mbtips.common.exception.VirtualFriendNotFoundException;
-import com.mbtips.conversation.entity.Conversation;
-import com.mbtips.domain.conversation.ConversationService;
+import com.mbtips.domain.conversation.service.ConversationService;
+import com.mbtips.domain.converstation.Conversation;
 import com.mbtips.domain.user.User;
 import com.mbtips.domain.virtualfriend.request.VirtualFriendRequest;
 import com.mbtips.domain.virtualfriend.response.VirtualFriendResponse;
-import com.mbtips.user.application.service.UserService;
-import com.mbtips.user.entity.UserEntity;
-import com.mbtips.virtualfriend.InterestRepository;
-import com.mbtips.virtualfriend.VirtualFriendRepository;
-import com.mbtips.virtualfriend.entity.Interest;
-import com.mbtips.virtualfriend.entity.InterestId;
-import com.mbtips.virtualfriend.entity.VirtualFriend;
+import com.mbtips.virtualfriend.entity.InterestEntity;
+import com.mbtips.virtualfriend.entity.VirtualFriendEntity;
+import com.mbtips.virtualfriend.interfaces.InterestRepository;
+import com.mbtips.virtualfriend.interfaces.VirtualFriendRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,54 +22,49 @@ public class VirtualFriendService {
 
     private final VirtualFriendRepository virtualFriendRepository;
     private final ConversationService conversationService;
-    private final UserService userService;
     private final InterestRepository interestRepository;
 
-    public List<VirtualFriendResponse> getVirtualFriendsByUserId(String userId) {
-        List<Object[]> friends = virtualFriendRepository.findvirtualFriendAndConversation(userId);
+    public List<VirtualFriendResponse> getVirtualFriendsByUserId(User user) {
+        List<Object[]> friends = virtualFriendRepository.findVirtualFriendAndConversation(user.getUserId());
 
-        List<VirtualFriendResponse> result = friends.stream()
-                .map(row -> VirtualFriendResponse.from((VirtualFriend) row[0], (Long) row[1]))
+        return friends.stream()
+                .map(row -> {
+                    VirtualFriendEntity virtualFriendEntity = (VirtualFriendEntity) row[0];
+                    return VirtualFriendResponse.from(virtualFriendEntity.toDomain(), (Long) row[1]);
+                })
                 .collect(Collectors.toList());
-
-        return result;
     }
 
-    /**
-     * todo user탐색 추가
-     */
-    public VirtualFriendResponse createVirtualFriend(VirtualFriendRequest req, String userId) {
+    public VirtualFriendResponse createVirtualFriend(VirtualFriendRequest req, User user) {
 
-        User user = userService.findById(userId);
-        UserEntity userEntity = new UserEntity(user);
+        VirtualFriend virtualFriend = VirtualFriend.builder()
+                .user(user)
+                .name(req.friendName())
+                .mbti(req.mbti())
+                .age(req.age())
+                .gender(req.gender())
+                .relationship(req.relationship())
+                .build();
 
-        VirtualFriend friend = VirtualFriendRequest.toEntity(req, userEntity);
-        VirtualFriend saveFriend = virtualFriendRepository.save(friend);
+        VirtualFriend saveVirtualFriend = virtualFriendRepository.save(virtualFriend);
 
-        List<Interest> interests = new ArrayList<>();
-        for(String topic : req.interests()){
-            interests.add(Interest.builder()
-                    .virtualFriend(saveFriend)
-                    .interestId(new InterestId(saveFriend.getVirtualFriendId(), topic))
-                    .build());
-        }
+        List<Interest> interests = req.interests()
+                .stream()
+                .map(topic -> Interest.builder()
+                        .virtualFriend(saveVirtualFriend)
+                        .topic(topic)
+                        .build())
+                .toList();
         interestRepository.saveAll(interests);
 
-        Conversation conversation = conversationService.createConversation(friend, userEntity);
-
-        VirtualFriendResponse result = VirtualFriendResponse.from(saveFriend, conversation.getConversationId());
-        return result;
+        Conversation conversation = conversationService.createConversation(saveVirtualFriend, user);
+        return VirtualFriendResponse.from(saveVirtualFriend, conversation.getConversationId());
     }
-    /**
-     * todo user탐색 추가
-     */
-    public void deleteVirtualFriend(Long friendId, String userId) {
 
-        User user = userService.findById(userId);
-        UserEntity userEntity = new UserEntity(user);
+    public void deleteVirtualFriend(Long virtualFriendId, User user) {
 
-        VirtualFriend virtualFriend = virtualFriendRepository.findByFriendId(friendId, userEntity)
-                .orElseThrow(() -> new VirtualFriendNotFoundException("가상 친구를 찾을 수 없습니다."));
+        VirtualFriend virtualFriend = virtualFriendRepository.findById(virtualFriendId);
+
         conversationService.deleteConversation(virtualFriend);
         virtualFriendRepository.delete(virtualFriend);
 

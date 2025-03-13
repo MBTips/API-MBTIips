@@ -1,7 +1,6 @@
 package com.mbtips.clova.client;
 
 import com.mbtips.clova.dto.ChatRequest;
-import com.mbtips.clova.dto.ChatResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;

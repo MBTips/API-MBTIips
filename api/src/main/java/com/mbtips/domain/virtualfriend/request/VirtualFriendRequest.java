@@ -1,8 +1,9 @@
 package com.mbtips.domain.virtualfriend.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.mbtips.domain.virtualfriend.enums.Gender;
 import com.mbtips.user.entity.UserEntity;
-import com.mbtips.virtualfriend.entity.VirtualFriend;
+import com.mbtips.virtualfriend.entity.VirtualFriendEntity;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -22,8 +23,8 @@ public record VirtualFriendRequest(
         @NotBlank(message = "관계 유형은 필수입니다.")
         String relationship,
 
-        @Pattern(regexp = "M|F", message = "성별은 M 또는 F만 가능합니다.")
-        String sex,
+//        @Pattern(regexp = "^(MAIL|FEMALE)$", message = "성별은 MAIL 또는 FEMALE만 가능합니다.")
+        Gender gender,
 
         @Pattern(
                 regexp = "^(INTJ|INTP|ENTJ|ENTP|INFJ|INFP|ENFJ|ENFP|ISTJ|ISFJ|ESTJ|ESFJ|ISTP|ISFP|ESTP|ESFP)$",
@@ -33,13 +34,13 @@ public record VirtualFriendRequest(
 
         List<String> interests
         ){
-        public static VirtualFriend toEntity(VirtualFriendRequest req, UserEntity userEntity) {
-                return VirtualFriend.builder()
+        public static VirtualFriendEntity toEntity(VirtualFriendRequest req, UserEntity userEntity) {
+                return VirtualFriendEntity.builder()
                         .user(userEntity)
                         .virtualFriendName(req.friendName)
                         .virtualFriendAge(req.age)
                         .virtualFriendRelationship(req.relationship)
-                        .virtualFriendSex(req.sex)
+                        .virtualFriendSex(req.gender)
                         .mbti(req.mbti)
                         .build();
 
