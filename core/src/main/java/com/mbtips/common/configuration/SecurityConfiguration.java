@@ -35,7 +35,7 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
-                .cors(Customizer.withDefaults())
+                .cors(cors -> cors.configurationSource(corsConfiguration()))
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
                 .formLogin(AbstractHttpConfigurer::disable)
                 .addFilterBefore(new JwtAuthenticationFilter(jwtProvider, objectMapper), UsernamePasswordAuthenticationFilter.class)
@@ -49,6 +49,7 @@ public class SecurityConfiguration {
         corsConfiguration.setAllowedOrigins(List.of(
                 "*"
         ));
+        corsConfiguration.setAllowCredentials(false);
         corsConfiguration.setAllowedHeaders(List.of("*"));
         corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH"));
         UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
