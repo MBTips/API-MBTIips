@@ -47,9 +47,7 @@ public class SecurityConfiguration {
     public CorsConfigurationSource corsConfiguration() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.setAllowedOrigins(List.of(
-                "*",
-                "http://34.47.114.108:3000",
-                "https://mbitips.kr"
+                "*"
         ));
         corsConfiguration.setAllowCredentials(true);
         corsConfiguration.setAllowedHeaders(List.of("*"));
