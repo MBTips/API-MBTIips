@@ -15,7 +15,7 @@ public class FastFriend {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long fastFriendId;
 
-    @Column
+    @Column(nullable = false)
     private String mbti;
 
     @Column(length = 20)
@@ -24,9 +24,9 @@ public class FastFriend {
     @Column
     private int fastFriendAge;
 
-    @Column(length = 4, nullable = false)
+    @Column(length = 10)
     private String fastFriendSex;
 
-    @Column(length = 20, nullable = false)
+    @Column(length = 20)
     private String fastFriendRelationship;
 }
