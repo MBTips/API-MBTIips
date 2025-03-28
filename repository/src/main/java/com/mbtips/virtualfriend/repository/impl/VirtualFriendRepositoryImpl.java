@@ -44,5 +44,20 @@ public class VirtualFriendRepositoryImpl implements VirtualFriendRepository {
         return virtualFriendJpaRepository.findVirtualFriendAndConversation(userId);
     }
 
+    @Override
+    public VirtualFriend update(Long virtualFriendId, VirtualFriend virtualFriend) {
+        VirtualFriendEntity entity = virtualFriendJpaRepository.findById(virtualFriendId).orElseThrow(() ->
+                new CustomException(VirtualFriendException.NOT_FOUND));
+
+        entity.setMbti(virtualFriend.getMbti());
+        entity.setVirtualFriendAge(virtualFriend.getAge());
+        entity.setVirtualFriendName(virtualFriend.getName());
+        entity.setVirtualFriendSex(virtualFriend.getGender());
+        entity.setVirtualFriendRelationship(virtualFriend.getRelationship());
+
+        VirtualFriendEntity updateEntity = virtualFriendJpaRepository.save(entity);
+        return updateEntity.toDomain();
+    }
+
 
 }

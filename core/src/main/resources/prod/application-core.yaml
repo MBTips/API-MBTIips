@@ -1,3 +1,5 @@
 jwt:
     secret: ENC(sSC+btxCYkHvPLQQhuMtDqg67p925zdtl3nKAnRmDzxLRZGu3uUVFcpnGrYPA8AwHH0jTd8T1ec=)
     expiration: 3600000
+clova:
+    api-key: ENC(PU+ICOCY668/ul4RJV2fp3eBtJli1nyJgQB5mU873SMItpflkRAG0Sa0KMgCDmPx)

@@ -13,4 +13,6 @@ public interface VirtualFriendRepository {
     VirtualFriend findById(long virtualFriendId);
 
     List<Object[]> findVirtualFriendAndConversation(String userId);
+
+    VirtualFriend update(Long virtualFriendId, VirtualFriend virtualFriend);
 }
