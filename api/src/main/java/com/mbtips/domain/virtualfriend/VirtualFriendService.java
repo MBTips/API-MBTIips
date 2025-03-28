@@ -7,6 +7,7 @@ import com.mbtips.domain.conversation.service.ConversationService;
 import com.mbtips.domain.converstation.Conversation;
 import com.mbtips.domain.user.User;
 import com.mbtips.domain.virtualfriend.request.VirtualFriendRequest;
+import com.mbtips.domain.virtualfriend.response.VirtualFriendInfoResponse;
 import com.mbtips.domain.virtualfriend.response.VirtualFriendResponse;
 import com.mbtips.virtualfriend.entity.InterestEntity;
 import com.mbtips.virtualfriend.entity.VirtualFriendEntity;
@@ -88,5 +89,37 @@ public class VirtualFriendService {
         // 가상친구 관심사
         result += ". 이제 대화를 시작해보자!";
         return result;
+    }
+
+    public VirtualFriendInfoResponse findById(Long virtualFriendId) {
+        VirtualFriend virtualFriend = virtualFriendRepository.findById(virtualFriendId);
+        List<String> interest = interestRepository.findTopicsByVirtualFriendId(virtualFriendId);
+        log.debug("interest : {}", interest);
+        VirtualFriendInfoResponse result = VirtualFriendInfoResponse.from(virtualFriend, interest);
+        return result;
+    }
+
+    public VirtualFriendInfoResponse updateVirtualFriend(Long virtualFriendId, VirtualFriendRequest req, User user) {
+        VirtualFriend virtualFriend = VirtualFriend.builder()
+                .user(user)
+                .name(req.friendName())
+                .mbti(req.mbti())
+                .age(req.age())
+                .gender(req.gender())
+                .relationship(req.relationship())
+                .build();
+        VirtualFriend updateFriend = virtualFriendRepository.update(virtualFriendId, virtualFriend);
+        interestRepository.deleteInterestByVirtualFriend(updateFriend);
+        List<Interest> interests = req.interests()
+                .stream()
+                .map(topic -> Interest.builder()
+                        .virtualFriend(updateFriend)
+                        .topic(topic)
+                        .build())
+                .toList();
+        interestRepository.saveAll(interests);
+
+        List<String> topics = interests.stream().map(Interest::getTopic).collect(Collectors.toList());
+        return VirtualFriendInfoResponse.from(updateFriend, topics);
     }
 }

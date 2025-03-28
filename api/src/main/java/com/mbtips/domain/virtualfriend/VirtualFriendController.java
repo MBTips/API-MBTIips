@@ -3,6 +3,7 @@ package com.mbtips.domain.virtualfriend;
 import com.mbtips.common.annotation.LoginUser;
 import com.mbtips.domain.user.User;
 import com.mbtips.domain.virtualfriend.request.VirtualFriendRequest;
+import com.mbtips.domain.virtualfriend.response.VirtualFriendInfoResponse;
 import com.mbtips.domain.virtualfriend.response.VirtualFriendResponse;
 import com.mbtips.common.response.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,6 +33,13 @@ public class VirtualFriendController {
         return ApiResponse.success(result);
     }
 
+    @GetMapping("/{virtualFriendId}")
+    @Operation(summary = "가상친구 상세 조회", description = "virtualFriendId를 기준으로 가상친구를 상세조회합니다.")
+    public ApiResponse<VirtualFriendInfoResponse> getVirtualFriend(@LoginUser User user, @PathVariable Long virtualFriendId) {
+        VirtualFriendInfoResponse result = virtualFriendService.findById(virtualFriendId);
+        return ApiResponse.success(result);
+    }
+
     /**
      *  todo - request validation 적용
      */
@@ -50,4 +58,13 @@ public class VirtualFriendController {
         virtualFriendService.deleteVirtualFriend(friendId, user);
         return ApiResponse.success();
     }
+
+    @PutMapping("/{virtualFriendId}")
+    @Operation(summary = "가상친구 정보 수정", description = "가상친구 정보를 수정합니다.")
+    public ApiResponse<VirtualFriendInfoResponse> updateVirtualFriend(@PathVariable Long virtualFriendId, @Valid @RequestBody VirtualFriendRequest virtualFriendRequest,
+                                                                  @LoginUser User user) {
+        VirtualFriendInfoResponse result = virtualFriendService.updateVirtualFriend(virtualFriendId, virtualFriendRequest, user);
+        return ApiResponse.success(result);
+    }
+
 }

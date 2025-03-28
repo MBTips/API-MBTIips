@@ -34,8 +34,11 @@ public class InterestRepositoryImpl implements InterestRepository {
     @Override
     @Transactional
     public void deleteInterestByVirtualFriend(VirtualFriend virtualFriend) {
-        em.createQuery("DELETE FROM InterestEntity i WHERE i.virtualFriendEntity.virtualFriendId = :virtualFriendId")
-                .setParameter("virtualFriendId", virtualFriend.getVirtualFriendId())
-                .executeUpdate();
+        interestJpaRepository.deleteByVirtualFriendId(virtualFriend.getVirtualFriendId());
+    }
+
+    @Override
+    public List<String> findTopicsByVirtualFriendId(Long virtualFriendId) {
+        return interestJpaRepository.findTopicsByVirtualFriendId(virtualFriendId);
     }
 }
