@@ -9,4 +9,4 @@ spring:
 kakao:
   authorize-url: https://kauth.kakao.com/oauth/authorize?response_type=code&client_id={0}&redirect_uri={1}
   app-key: ENC(la2O8hAJw/5PQXn8KxMXPDaAdnyXKBCGLZeI1uRkka+m2hbbtz+FmdQg3RE/B/aE)
-  redirect-url: https://mbtips.kr/kakao-login
+  redirect-url: http://localhost:8080/api/kakao/login

@@ -1,5 +1,6 @@
 package com.mbtips.domain.fastfriend.controller.dto.response;
 
+import com.mbtips.domain.virtualfriend.enums.Gender;
 import com.mbtips.fastfriend.entity.FastFriend;
 
 public record FastFriendResponse (
@@ -7,7 +8,7 @@ public record FastFriendResponse (
         String mbti,
         String fastFriendName,
         int fastFriendAge,
-        String fastFriendSex,
+        Gender fastFriendSex,
         String fastFriendRelationship
 ){
 

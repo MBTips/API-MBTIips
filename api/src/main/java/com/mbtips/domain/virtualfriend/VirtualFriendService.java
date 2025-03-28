@@ -1,5 +1,8 @@
 package com.mbtips.domain.virtualfriend;
 
+import com.mbtips.common.mbtiinfo.MbtiTraits;
+import com.mbtips.common.mbtiinfo.MbtiType;
+import com.mbtips.conversation.interfaces.ConversationRepository;
 import com.mbtips.domain.conversation.service.ConversationService;
 import com.mbtips.domain.converstation.Conversation;
 import com.mbtips.domain.user.User;
@@ -10,6 +13,7 @@ import com.mbtips.virtualfriend.entity.VirtualFriendEntity;
 import com.mbtips.virtualfriend.interfaces.InterestRepository;
 import com.mbtips.virtualfriend.interfaces.VirtualFriendRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,11 +22,13 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class VirtualFriendService {
 
     private final VirtualFriendRepository virtualFriendRepository;
     private final ConversationService conversationService;
     private final InterestRepository interestRepository;
+    private final ConversationRepository conversationRepository;
 
     public List<VirtualFriendResponse> getVirtualFriendsByUserId(User user) {
         List<Object[]> friends = virtualFriendRepository.findVirtualFriendAndConversation(user.getUserId());
@@ -65,8 +71,22 @@ public class VirtualFriendService {
 
         VirtualFriend virtualFriend = virtualFriendRepository.findById(virtualFriendId);
 
+        interestRepository.deleteInterestByVirtualFriend(virtualFriend);
         conversationService.deleteConversation(virtualFriend);
         virtualFriendRepository.delete(virtualFriend);
 
+    }
+
+    public String makePrompt(Long conversationId) {
+        Conversation conversation = conversationRepository.findById(conversationId);
+        VirtualFriend virtualFriend = conversation.getVirtualFriend();
+        // 대화방 기록
+        // 가상친구 특성
+        String mbti = virtualFriend.getMbti();
+        MbtiType mbtiType = MbtiType.valueOf(mbti);
+        String result = MbtiTraits.getTrait(mbtiType);
+        // 가상친구 관심사
+        result += ". 이제 대화를 시작해보자!";
+        return result;
     }
 }

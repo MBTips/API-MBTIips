@@ -1,5 +1,6 @@
 package com.mbtips.fastfriend.entity;
 
+import com.mbtips.domain.virtualfriend.enums.Gender;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,8 +25,9 @@ public class FastFriend {
     @Column
     private int fastFriendAge;
 
-    @Column(length = 4, nullable = false)
-    private String fastFriendSex;
+    @Enumerated(EnumType.STRING)
+    @Column(length = 10, nullable = false)
+    private Gender fastFriendSex;
 
     @Column(length = 20, nullable = false)
     private String fastFriendRelationship;
