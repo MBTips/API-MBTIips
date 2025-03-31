@@ -23,7 +23,6 @@ public record VirtualFriendRequest(
         @NotBlank(message = "관계 유형은 필수입니다.")
         String relationship,
 
-//        @Pattern(regexp = "^(MAIL|FEMALE)$", message = "성별은 MAIL 또는 FEMALE만 가능합니다.")
         Gender gender,
 
         @Pattern(
