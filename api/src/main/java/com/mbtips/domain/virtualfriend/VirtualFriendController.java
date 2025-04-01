@@ -33,7 +33,7 @@ public class VirtualFriendController {
     @GetMapping("/{virtualFriendId}")
     @Operation(summary = "가상친구 상세 조회", description = "virtualFriendId를 기준으로 가상친구를 상세조회합니다.")
     public ApiResponse<VirtualFriendInfoResponse> getVirtualFriend(@LoginUser User user, @PathVariable Long virtualFriendId) {
-        VirtualFriendInfoResponse result = virtualFriendService.findById(virtualFriendId);
+        VirtualFriendInfoResponse result = virtualFriendService.findFriendInfoById(virtualFriendId);
         return ApiResponse.success(result);
     }
 

@@ -91,7 +91,7 @@ public class VirtualFriendService {
         return result;
     }
 
-    public VirtualFriendInfoResponse findById(Long virtualFriendId) {
+    public VirtualFriendInfoResponse findFriendInfoById(Long virtualFriendId) {
         VirtualFriend virtualFriend = virtualFriendRepository.findById(virtualFriendId);
         List<String> interest = interestRepository.findTopicsByVirtualFriendId(virtualFriendId);
         log.debug("interest : {}", interest);

@@ -24,7 +24,6 @@ public class AdditionController {
     @Operation(summary = "대화 꿀팁", description = "해당 AI와의 대화 꿀팁을 반환합니다.")
     public ApiResponse<String> requestConversationTips(@PathVariable Long virtualFriendId, @LoginUser User user){
         String result = additionService.requestConversationTips(virtualFriendId);
-
         return ApiResponse.success(result);
     }
 
