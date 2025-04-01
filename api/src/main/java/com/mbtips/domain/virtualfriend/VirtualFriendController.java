@@ -22,9 +22,6 @@ public class VirtualFriendController {
 
     private final VirtualFriendService virtualFriendService;
 
-    /**
-     * 
-     */
     @GetMapping
     @Operation(summary = "가상친구, 채팅방 리스트 조회", description = "userId기준으로 채팅방+가상친구 리스트를 조회합니다.")
     public ApiResponse<List<VirtualFriendResponse>> getVirtualFriends(@LoginUser User user){
@@ -36,13 +33,10 @@ public class VirtualFriendController {
     @GetMapping("/{virtualFriendId}")
     @Operation(summary = "가상친구 상세 조회", description = "virtualFriendId를 기준으로 가상친구를 상세조회합니다.")
     public ApiResponse<VirtualFriendInfoResponse> getVirtualFriend(@LoginUser User user, @PathVariable Long virtualFriendId) {
-        VirtualFriendInfoResponse result = virtualFriendService.findById(virtualFriendId);
+        VirtualFriendInfoResponse result = virtualFriendService.findFriendInfoById(virtualFriendId);
         return ApiResponse.success(result);
     }
 
-    /**
-     *  todo - request validation 적용
-     */
     @PostMapping
     @Operation(summary = "가상친구 생성", description = "가상친구 생성을 요청하며, 채팅방이 생성됩니다.")
     public ApiResponse<VirtualFriendResponse> createVirtualFriend(@Valid @RequestBody VirtualFriendRequest virtualFriendRequest,
