@@ -26,7 +26,6 @@ public class FastFriend {
     private int fastFriendAge;
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 10, nullable = false)
     private Gender fastFriendSex;
 
     @Column(length = 20)
