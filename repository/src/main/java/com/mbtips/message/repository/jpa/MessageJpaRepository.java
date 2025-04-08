@@ -19,6 +19,7 @@ public interface MessageJpaRepository extends JpaRepository<MessageEntity, Long>
                 "m.user.userId, " +
                 "m.virtualFriendEntity.virtualFriendId) " +
             "from MessageEntity m " +
-            "where m.conversationEntity.conversationId = :conversationId")
+            "where m.conversationEntity.conversationId = :conversationId " +
+            "ORDER BY m.sentAt asc")
     List<GetMessageResponseDto> findByConversationId(Long conversationId);
 }
