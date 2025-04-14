@@ -11,6 +11,7 @@ import com.mbtips.domain.converstation.Conversation;
 import com.mbtips.domain.message.Message;
 import com.mbtips.domain.message.dto.request.CreateMessageRequestDto;
 import com.mbtips.domain.user.User;
+import com.mbtips.fastfriend.entity.FastFriend;
 import com.mbtips.message.application.service.MessageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -65,4 +67,5 @@ public class MessageManager {
         }
         return resultResponse;
     }
+
 }
