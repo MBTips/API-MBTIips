@@ -5,6 +5,7 @@ import com.mbtips.common.exception.CustomException;
 import com.mbtips.common.exception.enums.CommonException;
 import com.mbtips.common.mbtiinfo.MbtiTraits;
 import com.mbtips.common.mbtiinfo.MbtiType;
+import com.mbtips.domain.addtion.exception.AdditionException;
 import com.mbtips.domain.conversation.service.ConversationService;
 import com.mbtips.domain.converstation.Conversation;
 import com.mbtips.domain.message.dto.response.GetMessageResponseDto;
@@ -43,10 +44,10 @@ public class AdditionService {
     public String requestTemperature(Long conversationId) {
 
         List<GetMessageResponseDto> messages =  messageService.getMessagesOfConversationId(conversationId);
-
+        log.debug("messages.size: {}", messages.size());
         StringBuilder messageBuilder = new StringBuilder();
 
-        if(messages.size() <= 5) throw new CustomException(CommonException.TOO_FEW_CONVERSATIONS);
+        if(messages.size() <= 5) throw new CustomException(AdditionException.TOO_FEW_CONVERSATIONS);
         for(int i = messages.size() - 6; i < messages.size(); i++){
             if(messages.get(i).userId() != null) {
                 messageBuilder.append("사용자 : ");

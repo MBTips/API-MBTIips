@@ -1,9 +1,11 @@
 package com.mbtips.common.exception.handler;
 
 import com.mbtips.common.exception.CustomException;
+import com.mbtips.common.exception.ErrorResponse;
 import com.mbtips.common.exception.enums.CommonException;
 import com.mbtips.common.response.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -18,9 +20,12 @@ import java.util.stream.Collectors;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(CustomException.class)
-    public ResponseEntity<Void> customExceptionHandler(CustomException e) {
+    // 반환타입 void -> ErrorResponse, 클라이언트에서 코드, 메시지를 확인하도록
+    public ResponseEntity<ErrorResponse> customExceptionHandler(CustomException e) {
         log.error("### CustomExceptionHandler : {}", e.getMessage(), e);
-        return ResponseEntity.internalServerError().build();
+//        return ResponseEntity.internalServerError().build();
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ErrorResponse(e.getException().getCode(), e.getException().getMessage()));
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
@@ -35,9 +40,6 @@ public class GlobalExceptionHandler {
         return ResponseEntity.internalServerError().build();
     }
 
-    /**
-     * to-do customexception 적용하기
-     */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ApiResponse<Void> exceptionsHandler(MethodArgumentNotValidException e) {
 

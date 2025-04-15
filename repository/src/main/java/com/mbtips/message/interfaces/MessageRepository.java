@@ -10,4 +10,6 @@ public interface MessageRepository {
     List<GetMessageResponseDto> findByConversationId(long conversationId);
 
     void createMessage(Message message);
+
+    List<GetMessageResponseDto> findRecentMessagesByConversationId(Long conversationId);
 }
