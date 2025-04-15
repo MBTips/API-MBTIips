@@ -78,18 +78,6 @@ public class VirtualFriendService {
 
     }
 
-    public String makePrompt(Long conversationId) {
-        Conversation conversation = conversationRepository.findById(conversationId);
-        VirtualFriend virtualFriend = conversation.getVirtualFriend();
-        // 대화방 기록
-        // 가상친구 특성
-        String mbti = virtualFriend.getMbti();
-        MbtiType mbtiType = MbtiType.valueOf(mbti);
-        String result = MbtiTraits.getTrait(mbtiType);
-        // 가상친구 관심사
-        result += ". 이제 대화를 시작해보자!";
-        return result;
-    }
 
     public VirtualFriendInfoResponse findFriendInfoById(Long virtualFriendId) {
         VirtualFriend virtualFriend = virtualFriendRepository.findById(virtualFriendId);
