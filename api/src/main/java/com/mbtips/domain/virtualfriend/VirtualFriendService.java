@@ -16,6 +16,7 @@ import com.mbtips.virtualfriend.interfaces.VirtualFriendRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,7 @@ public class VirtualFriendService {
     private final InterestRepository interestRepository;
     private final ConversationRepository conversationRepository;
 
+    @Transactional(readOnly = true)
     public List<VirtualFriendResponse> getVirtualFriendsByUserId(User user) {
         List<Object[]> friends = virtualFriendRepository.findVirtualFriendAndConversation(user.getUserId());
 
@@ -42,6 +44,7 @@ public class VirtualFriendService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public VirtualFriendResponse createVirtualFriend(VirtualFriendRequest req, User user) {
 
         VirtualFriend virtualFriend = VirtualFriend.builder()
@@ -68,6 +71,8 @@ public class VirtualFriendService {
         return VirtualFriendResponse.from(saveVirtualFriend, conversation.getConversationId());
     }
 
+
+    @Transactional
     public void deleteVirtualFriend(Long virtualFriendId, User user) {
 
         VirtualFriend virtualFriend = virtualFriendRepository.findById(virtualFriendId);
@@ -79,6 +84,7 @@ public class VirtualFriendService {
     }
 
 
+    @Transactional(readOnly = true)
     public VirtualFriendInfoResponse findFriendInfoById(Long virtualFriendId) {
         VirtualFriend virtualFriend = virtualFriendRepository.findById(virtualFriendId);
         List<String> interest = interestRepository.findTopicsByVirtualFriendId(virtualFriendId);
@@ -87,6 +93,7 @@ public class VirtualFriendService {
         return result;
     }
 
+    @Transactional
     public VirtualFriendInfoResponse updateVirtualFriend(Long virtualFriendId, VirtualFriendRequest req, User user) {
         VirtualFriend virtualFriend = VirtualFriend.builder()
                 .user(user)

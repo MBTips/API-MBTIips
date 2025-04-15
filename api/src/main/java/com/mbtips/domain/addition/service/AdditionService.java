@@ -17,6 +17,7 @@ import com.mbtips.message.application.service.MessageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,7 @@ public class AdditionService {
     public final ConversationService conversationService;
     public final MessageService messageService;
     public final VirtualFriendService virtualFriendService;
+
     public String requestConversationTips(Long virtualFriendId) {
         VirtualFriendInfoResponse virtualFriend = virtualFriendService.findFriendInfoById(virtualFriendId);
 

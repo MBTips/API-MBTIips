@@ -26,10 +26,7 @@ public class FastFriendService {
     private final ClovaApiFeignClient clovaApiFeignClient;
     private final ClovaApiKeyProvider clovaApiKeyProvider;
     private final MessageManager messageManager;
-    /**
-     * to-do
-     * - 가상친구생성api 호출 로직 작성
-     */
+
     public Long createFastFriend(FastFriendRequest fastFriendRequest) {
         FastFriend friend = fastFriendRequest.toEntity(fastFriendRequest);
         FastFriend saveFriend =  fastFriendRepository.save(friend);
