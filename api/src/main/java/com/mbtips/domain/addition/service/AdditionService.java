@@ -1,8 +1,11 @@
 package com.mbtips.domain.addition.service;
 
 import com.mbtips.clova.dto.Message;
+import com.mbtips.common.exception.CustomException;
+import com.mbtips.common.exception.enums.CommonException;
 import com.mbtips.common.mbtiinfo.MbtiTraits;
 import com.mbtips.common.mbtiinfo.MbtiType;
+import com.mbtips.domain.addtion.exception.AdditionException;
 import com.mbtips.domain.conversation.service.ConversationService;
 import com.mbtips.domain.converstation.Conversation;
 import com.mbtips.domain.message.dto.response.GetMessageResponseDto;
@@ -14,6 +17,7 @@ import com.mbtips.message.application.service.MessageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +31,7 @@ public class AdditionService {
     public final ConversationService conversationService;
     public final MessageService messageService;
     public final VirtualFriendService virtualFriendService;
+
     public String requestConversationTips(Long virtualFriendId) {
         VirtualFriendInfoResponse virtualFriend = virtualFriendService.findFriendInfoById(virtualFriendId);
 
@@ -39,17 +44,25 @@ public class AdditionService {
     }
 
     public String requestTemperature(Long conversationId) {
-        Conversation conversation = conversationService.findById(conversationId);
-        List<GetMessageResponseDto> messages =  messageService.getMessagesOfConversationId(conversationId);
 
-        String[] messageList = {
-                "사용자: 안녕하세요, 오늘 기분이 어떠세요?",
-                "AI: 안녕하세요, 오늘 기분이 활기차고 즐거워요.",
-                "사용자: 오늘 특별한 계획이 있으세요?",
-                "AI: 네, 친구와 함께 신나는 시간을 보낼 예정입니다."
-        };
-        String requestConversation = String.join(", ", messageList);
-        String prompt = requestConversation + "현재까지의 대화 온도 측정해서 0~100 사이의 숫자로만 대답해줘 냉정하게 판단해주고, 숫자로만 대답해.";
+        List<GetMessageResponseDto> messages =  messageService.getMessagesOfConversationId(conversationId);
+        log.debug("messages.size: {}", messages.size());
+        StringBuilder messageBuilder = new StringBuilder();
+
+        if(messages.size() <= 5) throw new CustomException(AdditionException.TOO_FEW_CONVERSATIONS);
+        for(int i = messages.size() - 6; i < messages.size(); i++){
+            if(messages.get(i).userId() != null) {
+                messageBuilder.append("사용자 : ");
+                messageBuilder.append(messages.get(i).messageContent());
+            }
+            if(messages.get(i).virtualFriendId() != null) {
+                messageBuilder.append("가상 친구 : ");
+                messageBuilder.append(messages.get(i).messageContent());
+            }
+            if(i != messages.size() -1 ) messageBuilder.append(", ");
+        }
+        log.debug("대화 내역 : {}", messageBuilder.toString());
+        String prompt = messageBuilder + "현재까지의 대화 온도 측정해서 0~100 사이의 숫자로만 대답해줘 냉정하게 판단해주고, 숫자로만 대답해.";
         log.debug("prompt : {}", prompt);
         String temperatureResponse = messageManager.messageRequest(prompt);
         String result = temperatureResponse.replaceAll("[^0-9]", "");

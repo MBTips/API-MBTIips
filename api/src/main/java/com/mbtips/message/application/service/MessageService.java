@@ -23,4 +23,8 @@ public class MessageService {
     public void saveMessage(Message message) {
         messageRepository.createMessage(message);
     }
+
+    public List<GetMessageResponseDto> getRecentMessagesOfConversationId(Long conversationId) {
+        return messageRepository.findRecentMessagesByConversationId(conversationId);
+    }
 }

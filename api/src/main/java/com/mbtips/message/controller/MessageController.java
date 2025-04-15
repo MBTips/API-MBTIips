@@ -34,11 +34,7 @@ public class MessageController {
 
     @PostMapping
     public ApiResponse<String> createMessage(@RequestBody CreateMessageRequestDto createMessageRequestDto, @LoginUser User user){
-        messageManager.sendMessage(user, createMessageRequestDto);
-        String content = createMessageRequestDto.messageContent();
-        String prompt = virtualFriendService.makePrompt(createMessageRequestDto.conversationId());
-        log.debug("prompt : {}", prompt);
-        String clovaResponse = messageManager.messageRequest(content);
+        String clovaResponse = messageManager.sendMessage(user, createMessageRequestDto);
         return ApiResponse.success(clovaResponse);
     }
 
