@@ -50,8 +50,6 @@ public class GlobalExceptionHandler {
         return ApiResponse.fail(CommonException.INVALID_REQUEST_ERROR);
     }
 
-    /**
-     * VirtualFriendNotFoundException 구현 변경
-     */
+
 
 }
