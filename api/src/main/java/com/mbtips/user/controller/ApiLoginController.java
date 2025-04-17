@@ -10,6 +10,7 @@ import com.mbtips.kakao.dto.GetKakaoUserInfoResponseDto;
 import com.mbtips.user.application.dto.LoginUserRequestDto;
 import com.mbtips.user.application.manager.UserManager;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -40,8 +41,11 @@ public class ApiLoginController {
 
     @GetMapping("/authorize-url")
     @Operation(summary = "카카오 로그인 인증 URL", description = "카카오 로그인 인증 URL 반환")
-    public ApiResponse<String> getKakaoLoginUrl() {
-        String kakaoLoginUrl = MessageFormat.format(kakaoProperties.authorizeUrl(), kakaoProperties.appKey(), kakaoProperties.redirectUrl());
+    public ApiResponse<String> getKakaoLoginUrl(@Parameter String redirectUrl) {
+        if (redirectUrl == null) {
+            redirectUrl = kakaoProperties.redirectUrl();
+        }
+        String kakaoLoginUrl = MessageFormat.format(kakaoProperties.authorizeUrl(), kakaoProperties.appKey(), redirectUrl);
         return ApiResponse.success(kakaoLoginUrl);
     }
 
