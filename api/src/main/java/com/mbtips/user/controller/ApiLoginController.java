@@ -41,7 +41,7 @@ public class ApiLoginController {
 
     @GetMapping("/authorize-url")
     @Operation(summary = "카카오 로그인 인증 URL", description = "카카오 로그인 인증 URL 반환")
-    public ApiResponse<String> getKakaoLoginUrl(@Parameter String redirectUrl) {
+    public ApiResponse<String> getKakaoLoginUrl(@Parameter @RequestParam(required = false) String redirectUrl) {
         if (redirectUrl == null) {
             redirectUrl = kakaoProperties.redirectUrl();
         }
