@@ -21,6 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 @RequiredArgsConstructor
@@ -32,14 +34,19 @@ public class AdditionService {
     public final MessageService messageService;
     public final VirtualFriendService virtualFriendService;
 
-    public String requestConversationTips(Long virtualFriendId) {
+    public List<String> requestConversationTips(Long virtualFriendId) {
         VirtualFriendInfoResponse virtualFriend = virtualFriendService.findFriendInfoById(virtualFriendId);
 
         String mbtiTrait = MbtiTraits.getTrait(MbtiType.valueOf(virtualFriend.mbti()));
         mbtiTrait = mbtiTrait.substring(mbtiTrait.indexOf("특징을 설명해주면 다음과 같아"));
-        String requestPrompt = mbtiTrait + ", 이 mbti와 대화할 때, 꿀팁 알려줘";
+        String requestPrompt = mbtiTrait + ", 이 mbti와 대화할 때 꿀팁 작성해줘. 대화 주제 별로 번호를 달아 나열해 설명해줘. 4~5개정도만 알려주고, 꿀팁 앞뒤로 쓸데없는 구문은 빼고 답변해줘";
         log.debug("requstPrompt : {}", requestPrompt);
-        String result = messageManager.messageRequest(requestPrompt);
+        String response = messageManager.messageRequest(requestPrompt);
+
+        log.debug("result : {}", response);
+
+
+        List<String> result = extractItems(response);
         return result;
     }
 
@@ -69,14 +76,36 @@ public class AdditionService {
         return result;
     }
 
-    public String requestRecommendTopic(Long virtualFriendId) {
+    public List<String> requestRecommendTopic(Long virtualFriendId) {
         VirtualFriendInfoResponse virtualFriend = virtualFriendService.findFriendInfoById(virtualFriendId);
         String mbtiTrait = MbtiTraits.getTrait(MbtiType.valueOf(virtualFriend.mbti()));
         mbtiTrait = mbtiTrait.substring(mbtiTrait.indexOf("특징을 설명해주면 다음과 같아"));
-        String requestPrompt = mbtiTrait + ", 이 mbti와 대화할 때, 맞는 대화 주제 키워드 5개만 추천해줘, 짧게 단어로만 이야기해줘";
+        String requestPrompt = mbtiTrait + ", 이 mbti와 대화할 때, 맞는 대화 주제를 작성해줘. 대화 주제 별로 번호를 달아 나열해 설명해줘. 4~5개정도만 알려주고, 대화 주제 앞뒤로 쓸데없는 구문은 빼고 답변해줘";
 
-        String result = messageManager.messageRequest(requestPrompt);
-        log.debug("result : {}", result);
+        String response = messageManager.messageRequest(requestPrompt);
+        log.debug("result : {}", response);
+
+        List<String> result = extractItems(response);
         return result;
+    }
+
+    private List<String> extractItems(String text) {
+        List<String> items = new ArrayList<>();
+
+        // (?m) : ^, $가 각 라인 시작/끝을 의미하도록
+        // (?s) : '.'이 개행문자도 매칭하도록
+        // \\d+\\.\\s* : 숫자+마침표+공백
+        // (.+?) : 항목 내용 (최소 매칭)
+        // (?=\\r?\\n\\d+\\.|\\z) : 다음 항목 번호 또는 문자열 끝 전까지
+        String regex = "(?ms)\\d+\\.\\s*(.+?)(?=\\r?\\n\\d+\\.|\\z)";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(text);
+
+        while (matcher.find()) {
+            // group(1)에 번호와 마침표를 제외한 '내용'만 들어있음
+            items.add(matcher.group(1).trim());
+        }
+
+        return items;
     }
 }

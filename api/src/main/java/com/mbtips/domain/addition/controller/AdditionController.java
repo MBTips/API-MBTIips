@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @SecurityRequirements
 @RequiredArgsConstructor
@@ -22,8 +24,8 @@ public class AdditionController {
 
     @GetMapping("/tips/{virtualFriendId}")
     @Operation(summary = "대화 꿀팁", description = "해당 AI와의 대화 꿀팁을 반환합니다.")
-    public ApiResponse<String> requestConversationTips(@PathVariable Long virtualFriendId, @LoginUser User user){
-        String result = additionService.requestConversationTips(virtualFriendId);
+    public ApiResponse<List<String>> requestConversationTips(@PathVariable Long virtualFriendId, @LoginUser User user){
+        List<String> result = additionService.requestConversationTips(virtualFriendId);
         return ApiResponse.success(result);
     }
 
@@ -37,8 +39,8 @@ public class AdditionController {
 
     @GetMapping("/recommendtopic/{virtualFriendId}")
     @Operation(summary = "대화 주제 추천", description = "해당 AI와의 대화 주제를 추천합니다.")
-    public ApiResponse<String> reqeustRecommendTopic(@PathVariable Long virtualFriendId) {
-        String result = additionService.requestRecommendTopic(virtualFriendId);
+    public ApiResponse<List<String>> reqeustRecommendTopic(@PathVariable Long virtualFriendId) {
+        List<String> result = additionService.requestRecommendTopic(virtualFriendId);
         return ApiResponse.success(result);
     }
 }

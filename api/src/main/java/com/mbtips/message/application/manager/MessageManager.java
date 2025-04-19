@@ -50,12 +50,17 @@ public class MessageManager {
 
         messageService.saveMessage(requestMessage);
 
+        List<GetMessageResponseDto> messages = messageService.getRecentMessagesOfConversationId(conversation.getConversationId());
+
         String prompt = makePrompt(createMessageRequestDto.conversationId());
+
+        String recentMessagesPrompt = makeRecentMessageString(messages);
+        prompt += recentMessagesPrompt;
+        prompt = prompt + ". 이제 대화를 시작해보자!";
         log.debug("prompt : {} ", prompt);
+
         String responseContent = messageRequest(prompt + " " + createMessageRequestDto.messageContent());
         log.debug("responseMessage : {} ", responseContent);
-
-        List<GetMessageResponseDto> messages = messageService.getRecentMessagesOfConversationId(conversation.getConversationId());
 
 
         Message responseMessage = Message.builder()
@@ -68,6 +73,23 @@ public class MessageManager {
         return responseContent;
     }
 
+    private String makeRecentMessageString(List<GetMessageResponseDto> messages) {
+        StringBuilder messageBuilder = new StringBuilder();
+        for(int i = messages.size() - 6; i < messages.size(); i++){
+            if(messages.get(i).userId() != null) {
+                messageBuilder.append("사용자 : ");
+                messageBuilder.append(messages.get(i).messageContent());
+            }
+            if(messages.get(i).virtualFriendId() != null) {
+                messageBuilder.append("가상 친구 : ");
+                messageBuilder.append(messages.get(i).messageContent());
+            }
+            if(i != messages.size() -1 ) messageBuilder.append(", ");
+        }
+
+        return messageBuilder.toString();
+    }
+
     private String makePrompt(Long conversationId) {
         Conversation conversation = conversationRepository.findById(conversationId);
         VirtualFriend virtualFriend = conversation.getVirtualFriend();
@@ -76,15 +98,14 @@ public class MessageManager {
         String mbti = virtualFriend.getMbti();
         MbtiType mbtiType = MbtiType.valueOf(mbti);
         String result = MbtiTraits.getTrait(mbtiType);
-        // 가상친구 관심사
-        result += ". 이제 대화를 시작해보자!";
+
         return result;
 
     }
 
     public String messageRequest(String content){
         com.mbtips.clova.dto.Message message = new com.mbtips.clova.dto.Message("user", content);
-        ChatRequest chatRequest = new ChatRequest(Arrays.asList(message));
+        ChatRequest chatRequest = new ChatRequest(Arrays.asList(message), 2000);
         String apiResult = clovaApiFeignClient.getResponse(
                 "Bearer " + clovaApiKeyProvider.apiKey(),
                 UUID.randomUUID().toString(),
