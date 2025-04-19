@@ -41,7 +41,7 @@ public class ApiLoginController {
 
     @GetMapping("/authorize-url")
     @Operation(summary = "카카오 로그인 인증 URL", description = "카카오 로그인 인증 URL 반환")
-    public ApiResponse<String> getKakaoLoginUrl(@Parameter String redirectUrl) {
+    public ApiResponse<String> getKakaoLoginUrl(@Parameter @RequestParam(required = false) String redirectUrl) {
         if (redirectUrl == null) {
             redirectUrl = kakaoProperties.redirectUrl();
         }
@@ -51,9 +51,14 @@ public class ApiLoginController {
 
     @GetMapping("/login")
     @Operation(summary = "카카오 로그인 콜백 API(토큰 반환)", description = "카카오 로그인 및 회원 가입")
-    public ApiResponse<String> kakaoLoginCallback(@RequestParam("code") String code) {
+    public ApiResponse<String> kakaoLoginCallback(@RequestParam("code") String code,
+                                                  @Parameter @RequestParam(required = false) String redirectUrl
+    ) {
 
-        GetKakaoTokenRequestDto kakaoTokenRequestDto = new GetKakaoTokenRequestDto(AUTHORIZATION_CODE, kakaoProperties.appKey(), kakaoProperties.redirectUrl(), code);
+        if (redirectUrl == null) {
+            redirectUrl = kakaoProperties.redirectUrl();
+        }
+        GetKakaoTokenRequestDto kakaoTokenRequestDto = new GetKakaoTokenRequestDto(AUTHORIZATION_CODE, kakaoProperties.appKey(), redirectUrl, code);
         GetKakaoTokenResponseDto kakaoTokenResponseDto = kakaoAuthFeignClient.getAuthToken(kakaoTokenRequestDto.toMap());
 
         String authorization = BEARER + kakaoTokenResponseDto.accessToken();
