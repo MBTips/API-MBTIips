@@ -12,4 +12,5 @@ import java.util.List;
 public
 class ChatRequest {
     private List<Message> messages;
+    private Integer maxTokens;
 }

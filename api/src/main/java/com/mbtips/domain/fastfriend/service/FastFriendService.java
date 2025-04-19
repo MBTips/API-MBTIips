@@ -47,9 +47,9 @@ public class FastFriendService {
     private String getfastFriendPrompt(FastFriend fastFriend) {
         StringBuilder result = new StringBuilder();
 
+        if(fastFriend.getFastFriendName() != null) result.append(" 너의 이름은 " + fastFriend.getFastFriendName() +"이야. 명심해!");
         MbtiType mbtiType = MbtiType.valueOf(fastFriend.getMbti());
         result.append(MbtiTraits.getTrait(mbtiType));
-        if(fastFriend.getFastFriendName() != null) result.append(" 너의 이름은 " + fastFriend.getFastFriendName() +"이야. ");
         if(fastFriend.getFastFriendAge() != 0) result.append(" 너의 나이는 " + fastFriend.getFastFriendAge() + "이야. ");
         if(fastFriend.getFastFriendSex() != null) result.append(" 너의 성별은 " + fastFriend.getFastFriendSex() + "이야. ");
         if(fastFriend.getFastFriendRelationship() != null) result.append("너와 나의 관계는 " + fastFriend.getFastFriendRelationship() + "이야");
