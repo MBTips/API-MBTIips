@@ -31,4 +31,10 @@ public class UserManager {
             throw new CustomException(CommonException.JSON_PROCESS_ERROR);
         }
     }
+
+    @Transactional
+    public void deleteUser(String userId) {
+        userService.delete(userId);
+        // TODO : 회원 탈퇴시 진행되어야 하는 구조를 여기 넣으면 됩니다.
+    }
 }

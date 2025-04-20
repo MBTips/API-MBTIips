@@ -24,4 +24,9 @@ public class UserRepositoryImpl implements UserRepository {
         return userJpaRepository.findById(userId)
                 .map(UserEntity::toDomain);
     }
+
+    @Override
+    public void delete(String userId) {
+        userJpaRepository.deleteById(userId);
+    }
 }
