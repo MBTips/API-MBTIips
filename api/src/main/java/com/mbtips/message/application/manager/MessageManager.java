@@ -30,6 +30,7 @@ import java.util.UUID;
 @Slf4j
 public class MessageManager {
 
+    private final Integer MAX_TOKEN_VALUE = 300;
     private final MessageService messageService;
     private final ConversationService conversationService;
     private final ClovaApiFeignClient clovaApiFeignClient;
@@ -107,7 +108,7 @@ public class MessageManager {
 
     public String messageRequest(String content){
         com.mbtips.clova.dto.Message message = new com.mbtips.clova.dto.Message("user", content);
-        ChatRequest chatRequest = new ChatRequest(Arrays.asList(message), 2000);
+        ChatRequest chatRequest = new ChatRequest(Arrays.asList(message), MAX_TOKEN_VALUE);
         String apiResult = clovaApiFeignClient.getResponse(
                 "Bearer " + clovaApiKeyProvider.apiKey(),
                 UUID.randomUUID().toString(),
