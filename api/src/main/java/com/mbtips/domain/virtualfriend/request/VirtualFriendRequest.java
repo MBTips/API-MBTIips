@@ -16,11 +16,8 @@ public record VirtualFriendRequest(
 
         String friendName,
 
-        @Min(value = 1, message = "나이는 1 이상이어야 합니다.")
-        @Max(value = 100, message = "나이는 100 이하이어야 합니다.")
         int age,
 
-        @NotBlank(message = "관계 유형은 필수입니다.")
         String relationship,
 
         Gender gender,

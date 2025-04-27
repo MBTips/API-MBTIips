@@ -75,7 +75,9 @@ public class MessageManager {
 
     private String makeRecentMessageString(List<GetMessageResponseDto> messages) {
         StringBuilder messageBuilder = new StringBuilder();
-        for(int i = messages.size() - 6; i < messages.size(); i++){
+        int idx = messages.size() - 6;
+        if(idx < 0) idx = 0;
+        for(int i = idx; i < messages.size(); i++){
             if(messages.get(i).userId() != null) {
                 messageBuilder.append("사용자 : ");
                 messageBuilder.append(messages.get(i).messageContent());
