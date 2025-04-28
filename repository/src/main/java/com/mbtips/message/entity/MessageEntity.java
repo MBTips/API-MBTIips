@@ -42,11 +42,11 @@ public class MessageEntity {
 
     private Boolean isRead;
 
-    public MessageEntity(Message message) {
+    public MessageEntity(Message message, UserEntity userEntity, VirtualFriendEntity virtualFriend) {
         this.messageId = message.getMessageId();
         this.conversationEntity = new ConversationEntity(message.getConversation());
-        if(message.getUser() != null ) this.user = new UserEntity(message.getUser());
-        if(message.getVirtualFriend() != null)this.virtualFriendEntity = new VirtualFriendEntity(message.getVirtualFriend());
+        this.user = userEntity;
+        this.virtualFriendEntity = virtualFriend;
         this.messageContent = message.getMessageContent();
         this.sentAt = LocalDateTime.now();
     }

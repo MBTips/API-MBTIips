@@ -50,7 +50,7 @@ public class MessageManager {
 //                .virtualFriend(conversation.getVirtualFriend())
                 .messageContent(createMessageRequestDto.messageContent())
                 .build();
-
+        log.debug("message : {}", requestMessage.toString());
         messageService.saveMessage(requestMessage);
 
         List<GetMessageResponseDto> messages = messageService.getRecentMessagesOfConversationId(conversation.getConversationId());

@@ -5,11 +5,13 @@ import com.mbtips.domain.user.User;
 import com.mbtips.domain.virtualfriend.VirtualFriend;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Builder
+@ToString
 public class Message {
 
     private Long messageId;
