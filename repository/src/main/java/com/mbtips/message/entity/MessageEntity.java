@@ -28,7 +28,7 @@ public class MessageEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", foreignKey = @ForeignKey(NO_CONSTRAINT))
-    private UserEntity userEntity;
+    private UserEntity user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "virtual_friend_id", foreignKey = @ForeignKey(NO_CONSTRAINT))
@@ -45,7 +45,7 @@ public class MessageEntity {
     public MessageEntity(Message message) {
         this.messageId = message.getMessageId();
         this.conversationEntity = new ConversationEntity(message.getConversation());
-        if(message.getUser() != null ) this.userEntity = new UserEntity(message.getUser());
+        if(message.getUser() != null ) this.user = new UserEntity(message.getUser());
         if(message.getVirtualFriend() != null)this.virtualFriendEntity = new VirtualFriendEntity(message.getVirtualFriend());
         this.messageContent = message.getMessageContent();
         this.sentAt = LocalDateTime.now();
