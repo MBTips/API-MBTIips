@@ -14,7 +14,7 @@ import java.util.List;
 public class MessageService {
 
     private final MessageRepository messageRepository;
-    private final ConversationService conversationService;
+
 
     public List<GetMessageResponseDto> getMessagesOfConversationId(Long conversationId) {
         return messageRepository.findByConversationId(conversationId);
