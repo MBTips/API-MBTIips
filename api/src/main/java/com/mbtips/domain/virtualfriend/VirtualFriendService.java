@@ -9,6 +9,7 @@ import com.mbtips.domain.user.User;
 import com.mbtips.domain.virtualfriend.request.VirtualFriendRequest;
 import com.mbtips.domain.virtualfriend.response.VirtualFriendInfoResponse;
 import com.mbtips.domain.virtualfriend.response.VirtualFriendResponse;
+import com.mbtips.message.interfaces.MessageRepository;
 import com.mbtips.virtualfriend.entity.InterestEntity;
 import com.mbtips.virtualfriend.entity.VirtualFriendEntity;
 import com.mbtips.virtualfriend.interfaces.InterestRepository;
@@ -31,6 +32,7 @@ public class VirtualFriendService {
     private final ConversationService conversationService;
     private final InterestRepository interestRepository;
     private final ConversationRepository conversationRepository;
+    private final MessageRepository messageRepository;
 
     @Transactional(readOnly = true)
     public List<VirtualFriendResponse> getVirtualFriendsByUserId(User user) {
@@ -73,14 +75,25 @@ public class VirtualFriendService {
 
 
     @Transactional
-    public void deleteVirtualFriend(Long virtualFriendId, User user) {
+    public void deleteVirtualFriend(Long virtualFriendId) {
 
         VirtualFriend virtualFriend = virtualFriendRepository.findById(virtualFriendId);
 
         interestRepository.deleteInterestByVirtualFriend(virtualFriend);
+
         conversationService.deleteConversation(virtualFriend);
         virtualFriendRepository.delete(virtualFriend);
 
+    }
+
+    public void deleteVirtualFriendByUserId(String userId){
+        List<Long> virtualFriendIds = virtualFriendRepository.findVirtualFriendIds(userId);
+        log.debug("가상친구 {} 명을 조회하였습니다.", virtualFriendIds.size());
+
+        for(long idx : virtualFriendIds){
+            deleteVirtualFriend(idx);
+        }
+        log.debug("가상친구의 관심사, 대화방, 메시지를 모두 삭제하였습니다. 삭제된 가상친구 : {}", virtualFriendIds.size());
     }
 
 

@@ -5,8 +5,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mbtips.common.exception.CustomException;
 import com.mbtips.common.exception.enums.CommonException;
 import com.mbtips.common.provider.JwtProvider;
+import com.mbtips.domain.conversation.service.ConversationService;
 import com.mbtips.domain.user.User;
 import com.mbtips.domain.user.utils.UserUtils;
+import com.mbtips.domain.virtualfriend.VirtualFriendService;
+import com.mbtips.message.application.service.MessageService;
 import com.mbtips.user.application.dto.LoginUserRequestDto;
 import com.mbtips.user.application.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +23,9 @@ public class UserManager {
     private final UserService userService;
     private final ObjectMapper objectMapper;
     private final JwtProvider jwtProvider;
+    private final VirtualFriendService virtualFriendService;
+    private final ConversationService conversationService;
+    private final MessageService messageService;
 
     @Transactional
     public String login(LoginUserRequestDto requestDto) {
@@ -34,7 +40,7 @@ public class UserManager {
 
     @Transactional
     public void deleteUser(String userId) {
+        virtualFriendService.deleteVirtualFriendByUserId(userId);
         userService.delete(userId);
-        // TODO : 회원 탈퇴시 진행되어야 하는 구조를 여기 넣으면 됩니다.
     }
 }

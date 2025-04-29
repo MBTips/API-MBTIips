@@ -2,6 +2,7 @@ package com.mbtips.message.repository.impl;
 
 import com.mbtips.domain.message.Message;
 import com.mbtips.domain.message.dto.response.GetMessageResponseDto;
+import com.mbtips.domain.virtualfriend.VirtualFriend;
 import com.mbtips.message.entity.MessageEntity;
 import com.mbtips.message.interfaces.MessageRepository;
 import com.mbtips.message.repository.jpa.MessageJpaRepository;
@@ -50,6 +51,7 @@ public class MessageRepositoryImpl implements MessageRepository {
     public List<GetMessageResponseDto> findRecentMessagesByConversationId(Long conversationId) {
         return messageJpaRepository.findRecentMessagesByConversationId(conversationId, PageRequest.of(0,5));
     }
+
 
 
 }

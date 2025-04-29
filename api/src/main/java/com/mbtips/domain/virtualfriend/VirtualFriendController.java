@@ -49,7 +49,7 @@ public class VirtualFriendController {
     @DeleteMapping("/{friendId}")
     @Operation(summary = "가상친구 삭제", description = "가상친구가 삭제되며, 채팅방이 삭제됩니다.")
     public ApiResponse<Void> deleteVirtualFriend(@PathVariable Long friendId, @LoginUser User user){
-        virtualFriendService.deleteVirtualFriend(friendId, user);
+        virtualFriendService.deleteVirtualFriend(friendId);
         return ApiResponse.success();
     }
 

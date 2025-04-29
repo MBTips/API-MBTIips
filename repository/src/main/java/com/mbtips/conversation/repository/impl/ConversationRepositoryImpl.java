@@ -7,6 +7,7 @@ import com.mbtips.conversation.repository.jpa.ConversationJpaRepository;
 import com.mbtips.domain.converstation.Conversation;
 import com.mbtips.domain.converstation.exception.ConversationException;
 import com.mbtips.domain.virtualfriend.VirtualFriend;
+import com.mbtips.message.repository.jpa.MessageJpaRepository;
 import com.mbtips.virtualfriend.entity.VirtualFriendEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -20,6 +21,7 @@ import java.util.Optional;
 public class ConversationRepositoryImpl implements ConversationRepository {
 
     private final ConversationJpaRepository conversationJpaRepository;
+    private final MessageJpaRepository messageJpaRepository;
 
 
     @Override
@@ -34,6 +36,7 @@ public class ConversationRepositoryImpl implements ConversationRepository {
     @Transactional
     public void delete(Conversation conversation) {
         ConversationEntity conversationEntity = new ConversationEntity(conversation);
+        messageJpaRepository.deleteAllByConversationEntity(conversationEntity);
         conversationJpaRepository.delete(conversationEntity);
     }
 

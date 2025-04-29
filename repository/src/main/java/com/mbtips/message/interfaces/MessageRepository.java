@@ -2,6 +2,7 @@ package com.mbtips.message.interfaces;
 
 import com.mbtips.domain.message.Message;
 import com.mbtips.domain.message.dto.response.GetMessageResponseDto;
+import com.mbtips.domain.virtualfriend.VirtualFriend;
 
 import java.util.List;
 
@@ -12,4 +13,5 @@ public interface MessageRepository {
     void createMessage(Message message);
 
     List<GetMessageResponseDto> findRecentMessagesByConversationId(Long conversationId);
+
 }

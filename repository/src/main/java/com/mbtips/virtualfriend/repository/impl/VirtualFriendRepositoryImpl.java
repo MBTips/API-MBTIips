@@ -8,12 +8,14 @@ import com.mbtips.virtualfriend.entity.VirtualFriendEntity;
 import com.mbtips.virtualfriend.interfaces.VirtualFriendRepository;
 import com.mbtips.virtualfriend.repository.jpa.VirtualFriendJpaRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
+@Slf4j
 public class VirtualFriendRepositoryImpl implements VirtualFriendRepository {
 
     private final VirtualFriendJpaRepository virtualFriendJpaRepository;
@@ -57,6 +59,13 @@ public class VirtualFriendRepositoryImpl implements VirtualFriendRepository {
 
         VirtualFriendEntity updateEntity = virtualFriendJpaRepository.save(entity);
         return updateEntity.toDomain();
+    }
+
+    @Override
+    public List<Long> findVirtualFriendIds(String userId) {
+        List<Long> result = virtualFriendJpaRepository.findIdsByUserId(userId);
+
+        return result;
     }
 
 

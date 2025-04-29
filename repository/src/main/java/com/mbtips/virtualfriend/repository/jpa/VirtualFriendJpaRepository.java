@@ -16,4 +16,8 @@ public interface VirtualFriendJpaRepository extends JpaRepository<VirtualFriendE
             "WHERE v.user.userId = :userId")
     List<Object[]> findVirtualFriendAndConversation(String userId);
 
+    @Query("SELECT v.virtualFriendId " +
+            "FROM VirtualFriendEntity v " +
+            "WHERE v.user.userId = :userId")
+    List<Long> findIdsByUserId(String userId);
 }

@@ -4,6 +4,7 @@ import com.mbtips.conversation.interfaces.ConversationRepository;
 import com.mbtips.domain.converstation.Conversation;
 import com.mbtips.domain.user.User;
 import com.mbtips.domain.virtualfriend.VirtualFriend;
+import com.mbtips.message.interfaces.MessageRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
