@@ -34,6 +34,7 @@ public class MessageController {
 
     @PostMapping
     public ApiResponse<String> createMessage(@RequestBody CreateMessageRequestDto createMessageRequestDto, @LoginUser User user){
+        log.debug("<<< controller >>> user value : {}", user.toString());
         String clovaResponse = messageManager.sendMessage(user, createMessageRequestDto);
         return ApiResponse.success(clovaResponse);
     }
