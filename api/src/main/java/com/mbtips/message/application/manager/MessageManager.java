@@ -43,7 +43,7 @@ public class MessageManager {
     public String sendMessage(User user, CreateMessageRequestDto createMessageRequestDto) {
         Conversation conversation = conversationService.findById(createMessageRequestDto.conversationId());
 
-        log.debug("<<<service start >>> userInfo : {}", user);
+        //log.debug("<<<service start >>> userInfo : {}", user);
         Message requestMessage = Message.builder()
                 .user(user)
                 .conversation(conversation)
