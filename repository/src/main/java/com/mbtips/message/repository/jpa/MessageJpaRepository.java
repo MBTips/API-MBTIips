@@ -30,7 +30,7 @@ public interface MessageJpaRepository extends JpaRepository<MessageEntity, Long>
             "m.messageId, m.messageContent, m.sentAt, m.user.userId, m.virtualFriendEntity.virtualFriendId) " +
             "FROM MessageEntity m " +
             "WHERE m.conversationEntity.conversationId = :conversationId " +
-            "ORDER BY m.sentAt DESC")
+            "ORDER BY m.sentAt desc ")
     List<GetMessageResponseDto> findRecentMessagesByConversationId(Long conversationId, PageRequest of);
 
 

@@ -22,9 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -42,7 +40,8 @@ public class MessageManager {
     @Transactional
     public String sendMessage(User user, CreateMessageRequestDto createMessageRequestDto) {
         Conversation conversation = conversationService.findById(createMessageRequestDto.conversationId());
-
+        List<GetMessageResponseDto> messages = messageService.getRecentMessagesOfConversationId(conversation.getConversationId());
+        Collections.reverse(messages);
         //log.debug("<<<service start >>> userInfo : {}", user);
         Message requestMessage = Message.builder()
                 .user(user)
@@ -53,13 +52,12 @@ public class MessageManager {
         log.debug("message : {}", requestMessage.toString());
         messageService.saveMessage(requestMessage);
 
-        List<GetMessageResponseDto> messages = messageService.getRecentMessagesOfConversationId(conversation.getConversationId());
 
         String prompt = makePrompt(createMessageRequestDto.conversationId());
 
         String recentMessagesPrompt = makeRecentMessageString(messages);
         prompt += recentMessagesPrompt;
-        prompt = prompt + ". 이제 대화를 시작해보자!";
+        prompt = prompt + " 이제 대화를 시작해보자!";
         log.debug("prompt : {} ", prompt);
 
         String responseContent = messageRequest(prompt + " " + createMessageRequestDto.messageContent());
@@ -78,15 +76,16 @@ public class MessageManager {
 
     private String makeRecentMessageString(List<GetMessageResponseDto> messages) {
         StringBuilder messageBuilder = new StringBuilder();
+        messageBuilder.append(" 지금까지의 대화내용은 다음과 같아. B가 지금까지 너의 대답이야. ");
         int idx = messages.size() - 6;
         if(idx < 0) idx = 0;
         for(int i = idx; i < messages.size(); i++){
             if(messages.get(i).userId() != null) {
-                messageBuilder.append("사용자 : ");
+                messageBuilder.append("A : ");
                 messageBuilder.append(messages.get(i).messageContent());
             }
             if(messages.get(i).virtualFriendId() != null) {
-                messageBuilder.append("가상 친구 : ");
+                messageBuilder.append("B : ");
                 messageBuilder.append(messages.get(i).messageContent());
             }
             if(i != messages.size() -1 ) messageBuilder.append(", ");
@@ -98,12 +97,19 @@ public class MessageManager {
     private String makePrompt(Long conversationId) {
         Conversation conversation = conversationRepository.findById(conversationId);
         VirtualFriend virtualFriend = conversation.getVirtualFriend();
-        // 대화방 기록
-        // 가상친구 특성
+
+
         String mbti = virtualFriend.getMbti();
         MbtiType mbtiType = MbtiType.valueOf(mbti);
         String result = MbtiTraits.getTrait(mbtiType);
 
+        StringBuilder temp = new StringBuilder();
+        if(virtualFriend.getName() != null) temp.append(" 너의 이름은 " + virtualFriend.getName() +"이야. 명심해!");
+        if(virtualFriend.getAge() != 0) temp.append(" 너의 나이는 " + virtualFriend.getAge() + "이야. ");
+        if(virtualFriend.getGender() != null) temp.append(" 너의 성별은 " + virtualFriend.getGender() + "이야. ");
+        if(virtualFriend.getRelationship() != null) temp.append("너와 나의 관계는 " + virtualFriend.getRelationship() + "이야");
+
+        result += temp.toString();
         return result;
 
     }
