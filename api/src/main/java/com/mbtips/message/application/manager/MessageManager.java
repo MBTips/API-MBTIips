@@ -100,8 +100,10 @@ public class MessageManager {
 
 
         String mbti = virtualFriend.getMbti();
-        MbtiType mbtiType = MbtiType.valueOf(mbti);
-        String result = MbtiTraits.getTrait(mbtiType);
+//        MbtiType mbtiType = MbtiType.valueOf(mbti);
+//        String result = MbtiTraits.getTrait(mbtiType);
+        String result = "너는 이제부터 MBTI중 " + mbti + "에 해당하는 사람이야. 답변은 10~30자 내외로 대답해줘.";
+//                너는 이제부터 MBTI 중 ENFP에 해당하는 사람이야. 답변은 10~30자 내외로 대답해줘.
 
         StringBuilder temp = new StringBuilder();
         if(virtualFriend.getName() != null) temp.append(" 너의 이름은 " + virtualFriend.getName() +"이야. 명심해!");
