@@ -42,6 +42,9 @@ public class VirtualFriendEntity {
     @Column(length = 20, nullable = false)
     private String virtualFriendRelationship;
 
+    @Column(length = 30, nullable = false)
+    private String friendType;
+
     public VirtualFriendEntity(VirtualFriend virtualFriend) {
         this.virtualFriendId = virtualFriend.getVirtualFriendId();
         this.user = new UserEntity(virtualFriend.getUser());
@@ -50,6 +53,7 @@ public class VirtualFriendEntity {
         this.virtualFriendAge = virtualFriend.getAge();
         this.virtualFriendSex = virtualFriend.getGender();
         this.virtualFriendRelationship = virtualFriend.getRelationship();
+        this.friendType = virtualFriend.getFriendType();
     }
 
     public VirtualFriend toDomain() {
@@ -61,6 +65,7 @@ public class VirtualFriendEntity {
                 .age(virtualFriendAge)
                 .gender(virtualFriendSex)
                 .relationship(virtualFriendRelationship)
+                .friendType(friendType)
                 .build();
     }
 

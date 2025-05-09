@@ -22,4 +22,6 @@ public class VirtualFriend {
     private Gender gender;
 
     private String relationship;
+
+    private String friendType;
 }

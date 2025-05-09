@@ -5,6 +5,8 @@ import com.mbtips.common.mbtiinfo.MbtiType;
 import com.mbtips.conversation.interfaces.ConversationRepository;
 import com.mbtips.domain.conversation.service.ConversationService;
 import com.mbtips.domain.converstation.Conversation;
+import com.mbtips.domain.fastfriend.controller.dto.request.FastFriendMessageRequest;
+import com.mbtips.domain.message.dto.request.CreateMessageRequestDto;
 import com.mbtips.domain.user.User;
 import com.mbtips.domain.virtualfriend.request.VirtualFriendRequest;
 import com.mbtips.domain.virtualfriend.response.VirtualFriendInfoResponse;
@@ -47,7 +49,7 @@ public class VirtualFriendService {
     }
 
     @Transactional
-    public VirtualFriendResponse createVirtualFriend(VirtualFriendRequest req, User user) {
+    public VirtualFriendResponse createVirtualFriend(VirtualFriendRequest req, User user, String type) {
 
         VirtualFriend virtualFriend = VirtualFriend.builder()
                 .user(user)
@@ -56,6 +58,7 @@ public class VirtualFriendService {
                 .age(req.age())
                 .gender(req.gender())
                 .relationship(req.relationship())
+                .friendType(type)
                 .build();
 
         VirtualFriend saveVirtualFriend = virtualFriendRepository.save(virtualFriend);
@@ -129,5 +132,10 @@ public class VirtualFriendService {
 
         List<String> topics = interests.stream().map(Interest::getTopic).collect(Collectors.toList());
         return VirtualFriendInfoResponse.from(updateFriend, topics);
+    }
+
+    public CreateMessageRequestDto createMessageRequestDto(FastFriendMessageRequest request) {
+        Conversation conversation = conversationRepository.findById(request.fastFriendId());
+        return new CreateMessageRequestDto(conversation.getConversationId(), request.content());
     }
 }

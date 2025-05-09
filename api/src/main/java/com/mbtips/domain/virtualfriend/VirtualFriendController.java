@@ -42,7 +42,7 @@ public class VirtualFriendController {
     public ApiResponse<VirtualFriendResponse> createVirtualFriend(@Valid @RequestBody VirtualFriendRequest virtualFriendRequest,
                                                                   @LoginUser User user){
         log.debug("virtualFriendRequest : {}, {}", virtualFriendRequest, user);
-        VirtualFriendResponse result = virtualFriendService.createVirtualFriend(virtualFriendRequest, user);
+        VirtualFriendResponse result = virtualFriendService.createVirtualFriend(virtualFriendRequest, user, "virtual");
         return ApiResponse.success(result);
     }
 
