@@ -1,0 +1,4 @@
+# application-test.yml
+spring:
+  config:
+    import: "classpath:test/application-repository.yml"
