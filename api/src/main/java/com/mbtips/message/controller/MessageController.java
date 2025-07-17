@@ -21,6 +21,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RequestMapping("/api/message")
 public class MessageController {
+    //
     private final MessageService messageService;
     private final MessageManager messageManager;
     private final VirtualFriendService virtualFriendService;
