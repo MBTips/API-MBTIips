@@ -35,6 +35,4 @@ tasks.named("clean") {
         file(querydslDir).deleteRecursively()
     }
 }
-tasks.named<BootJar>("bootJar") {
-    isEnabled = false
-}
+tasks.bootJar { enabled = false }
