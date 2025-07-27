@@ -3,3 +3,5 @@ jwt:
     expiration: 3600000
 clova:
     api-key: ENC(PU+ICOCY668/ul4RJV2fp3eBtJli1nyJgQB5mU873SMItpflkRAG0Sa0KMgCDmPx)
+gpt:
+    api-key: ENC(txY6IXHUbivTtHKcPkmQGkrQYiZylv5l8hiV3i+opo4HhKRaYaJoEIleiis0ZzXg10bPF6rfqeUcovgxqLuAy6otSYtDclxBrKE433nc4Zeku4IJ/kzRk2/mnAJn/rYx5imRZAYOw0GV3zRr688RM5bZOI/Wq6f9Sv0KzfHeWkrF6RGr/ocO48Dr2NsC/6QEYHykfgd69p5JNcIwJU/yiaLyBNQuJvr27KlV1tTgrEI=)

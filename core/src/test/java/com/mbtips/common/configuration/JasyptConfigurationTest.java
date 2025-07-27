@@ -31,8 +31,9 @@ class JasyptConfigurationTest {
 
         // when
         String encrypt = this.jasyptEncrypt(target);
+        System.out.println("encrypt = " + encrypt);
         String decrypt = this.jasyptDecrypt(encrypt);
-
+        System.out.println("decrypt = " + decrypt);
         // then
         Assertions.assertEquals(target, decrypt);
     }

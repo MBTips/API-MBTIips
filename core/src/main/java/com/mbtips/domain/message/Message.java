@@ -28,4 +28,19 @@ public class Message {
 
     private Boolean isRead;
 
+    public static Message createMessage(User user, Conversation conversation, String messageContent){
+        return Message.builder()
+                .user(user)
+                .conversation(conversation)
+                .messageContent(messageContent)
+                .build();
+    }
+
+    public static Message createMessage(Conversation conversation, String messageContent){
+        return Message.builder()
+                .conversation(conversation)
+                .virtualFriend(conversation.getVirtualFriend())
+                .messageContent(messageContent)
+                .build();
+    }
 }
