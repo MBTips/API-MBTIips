@@ -11,7 +11,8 @@ public record VirtualFriendResponse (
         String virtualFriendName,
         int virtualFriendAge,
         Gender virtualFriendSex,
-        String virtualFriendRelationship
+        String virtualFriendJob,
+        String freeSetting
 ){
     public static VirtualFriendResponse from(VirtualFriend virtualFriend , long conversationId) {
         return new VirtualFriendResponse(
@@ -21,7 +22,8 @@ public record VirtualFriendResponse (
                 virtualFriend.getName(),
                 virtualFriend.getAge(),
                 virtualFriend.getGender(),
-                virtualFriend.getRelationship()
+                virtualFriend.getJob(),
+                virtualFriend.getFreeSetting()
         );
     }
 

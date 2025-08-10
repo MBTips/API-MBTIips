@@ -76,9 +76,9 @@ public class MessageManager {
 
         String mbtiStyle = conversation.getVirtualFriend().getMbti();
         String suffix = " 이제 대화를 시작해보자!";
-        String instruction = "이제 들어온 톡은 아래와 같은데 " + mbtiStyle + "스타일 친구 같이 무례하지 않은 반말로 대답해봐";
+        String instruction = "들어온 톡은 아래와 같은데 " + mbtiStyle + "스타일 친구 같이 무례하지 않은 반말로 대답해봐 그리고 내가 지정해준 이름이 있다 해도, '이름 : 답변'과 같은 형식은 지양하고, 답변만 산출해줘";
 
-        return basePrompt + recentMessageSummary + suffix + " " + instruction + " " + userMessage;
+        return basePrompt + recentMessageSummary + " " + instruction + " "+ suffix + " " + userMessage ;
     }
 
     private String makeRecentMessageString(List<GetMessageResponseDto> messages) {
@@ -116,6 +116,8 @@ public class MessageManager {
         if(virtualFriend.getName() != null) temp.append(" 너의 이름은 " + virtualFriend.getName() +"야.");
         if(virtualFriend.getAge() != 0) temp.append(" 너의 나잇대는 " + virtualFriend.getAge() + "야.");
         if(virtualFriend.getGender() != null) temp.append(" 너의 성별은 " + virtualFriend.getGender() + "이야.");
+        if(virtualFriend.getJob() != null) temp.append(" 너의 직업은 " + virtualFriend.getJob() + "이야.");
+        if(virtualFriend.getFreeSetting() != null) temp.append(" 그리고 너의 특징은 " + virtualFriend.getFreeSetting() + "이야.");
 //        if(virtualFriend.getRelationship() != null) temp.append(" 너와 나의 관계는 " + virtualFriend.getRelationship() + "이야");
 
         result += temp.toString();

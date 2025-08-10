@@ -21,7 +21,10 @@ public class VirtualFriend {
 
     private Gender gender;
 
-    private String relationship;
+    private String job;
 
     private String friendType;
+
+    private String freeSetting;
+
 }

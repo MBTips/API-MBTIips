@@ -55,7 +55,8 @@ public class VirtualFriendRepositoryImpl implements VirtualFriendRepository {
         entity.setVirtualFriendAge(virtualFriend.getAge());
         entity.setVirtualFriendName(virtualFriend.getName());
         entity.setVirtualFriendSex(virtualFriend.getGender());
-        entity.setVirtualFriendRelationship(virtualFriend.getRelationship());
+        entity.setJob(virtualFriend.getJob());
+        entity.setFreeSetting(virtualFriend.getFreeSetting());
 
         VirtualFriendEntity updateEntity = virtualFriendJpaRepository.save(entity);
         return updateEntity.toDomain();

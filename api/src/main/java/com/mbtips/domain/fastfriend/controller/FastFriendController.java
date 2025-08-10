@@ -3,7 +3,7 @@ package com.mbtips.domain.fastfriend.controller;
 import com.mbtips.common.response.ApiResponse;
 import com.mbtips.domain.fastfriend.controller.dto.request.FastFriendMessageRequest;
 import com.mbtips.domain.fastfriend.controller.dto.request.FastFriendRequest;
-import com.mbtips.domain.fastfriend.service.FastFriendService;
+//import com.mbtips.domain.fastfriend.service.FastFriendService;
 import com.mbtips.domain.message.dto.request.CreateMessageRequestDto;
 import com.mbtips.domain.user.User;
 import com.mbtips.domain.virtualfriend.VirtualFriendService;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/fast-friend")
 public class FastFriendController {
 
-    private final FastFriendService fastFriendService;
+//    private final FastFriendService fastFriendService;
     private final VirtualFriendService virtualFriendService;
     private final MessageManager manager;
 

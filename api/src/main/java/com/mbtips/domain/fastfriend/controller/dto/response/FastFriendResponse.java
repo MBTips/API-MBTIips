@@ -1,7 +1,6 @@
 package com.mbtips.domain.fastfriend.controller.dto.response;
 
 import com.mbtips.domain.virtualfriend.enums.Gender;
-import com.mbtips.fastfriend.entity.FastFriend;
 
 public record FastFriendResponse (
         Long fastFriendId,
@@ -12,14 +11,14 @@ public record FastFriendResponse (
         String fastFriendRelationship
 ){
 
-    public static FastFriendResponse from(FastFriend saveFriend) {
-        return new FastFriendResponse(
-                saveFriend.getFastFriendId(),
-                saveFriend.getMbti(),
-                saveFriend.getFastFriendName(),
-                saveFriend.getFastFriendAge(),
-                saveFriend.getFastFriendSex(),
-                saveFriend.getFastFriendRelationship()
-        );
-    }
+//    public static FastFriendResponse from(FastFriend saveFriend) {
+//        return new FastFriendResponse(
+//                saveFriend.getFastFriendId(),
+//                saveFriend.getMbti(),
+//                saveFriend.getFastFriendName(),
+//                saveFriend.getFastFriendAge(),
+//                saveFriend.getFastFriendSex(),
+//                saveFriend.getFastFriendRelationship()
+//        );
+//    }
 }

@@ -11,18 +11,18 @@ public record VirtualFriendInfoResponse(
         String name,
         int age,
         Gender gender,
-        String relationship,
-        List<String> interest
+        String job,
+        String freeSetting
 ) {
-    public static VirtualFriendInfoResponse from(VirtualFriend virtualFriend, List<String> interest){
+    public static VirtualFriendInfoResponse from(VirtualFriend virtualFriend){
         return new VirtualFriendInfoResponse(
                 virtualFriend.getVirtualFriendId(),
                 virtualFriend.getMbti(),
                 virtualFriend.getName(),
                 virtualFriend.getAge(),
                 virtualFriend.getGender(),
-                virtualFriend.getRelationship(),
-                interest
+                virtualFriend.getJob(),
+                virtualFriend.getFreeSetting()
         );
     }
 }
