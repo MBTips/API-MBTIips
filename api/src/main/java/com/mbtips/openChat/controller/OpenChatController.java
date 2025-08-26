@@ -21,6 +21,7 @@ public class OpenChatController {
 
     @PostMapping
     public ApiResponse<Void> createOpenChat(@RequestBody OpenChatDto openChatDto) {
+        openChatService.save(openChatDto);
         return ApiResponse.success();
     }
 
