@@ -12,6 +12,9 @@ dependencies {
 
     // Swagger
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.3")
+
+    // Web Socket
+    implementation("org.springframework.boot:spring-boot-starter-websocket")
 }
 
 dependencyManagement {
