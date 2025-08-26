@@ -1,3 +1,5 @@
+import org.springframework.boot.gradle.tasks.bundling.BootJar
+
 dependencies {
     implementation(project(mapOf("path" to ":core")))
 
@@ -33,6 +35,4 @@ tasks.named("clean") {
         file(querydslDir).deleteRecursively()
     }
 }
-tasks.bootJar {
-    enabled = false
-}
+tasks.bootJar { enabled = false }

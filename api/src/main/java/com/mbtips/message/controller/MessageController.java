@@ -11,6 +11,8 @@ import com.mbtips.domain.user.User;
 import com.mbtips.domain.message.dto.response.GetMessageResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,6 +23,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RequestMapping("/api/message")
 public class MessageController {
+    //
     private final MessageService messageService;
     private final MessageManager messageManager;
     private final VirtualFriendService virtualFriendService;
@@ -37,6 +40,12 @@ public class MessageController {
         //log.debug("<<< controller >>> user value : {}", user.toString());
         String clovaResponse = messageManager.sendMessage(user, createMessageRequestDto);
         return ApiResponse.success(clovaResponse);
+    }
+
+    @GetMapping("/modellist")
+    public ResponseEntity<List<Map<String, Object>>> selectModelList() {
+        List<Map<String, Object>> result = messageManager.modelList();
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
 }

@@ -57,20 +57,21 @@ public class VirtualFriendService {
                 .mbti(req.mbti())
                 .age(req.age())
                 .gender(req.gender())
-                .relationship(req.relationship())
                 .friendType(type)
+                .job(req.job())
+                .freeSetting(req.freeSetting())
                 .build();
 
         VirtualFriend saveVirtualFriend = virtualFriendRepository.save(virtualFriend);
 
-        List<Interest> interests = req.interests()
-                .stream()
-                .map(topic -> Interest.builder()
-                        .virtualFriend(saveVirtualFriend)
-                        .topic(topic)
-                        .build())
-                .toList();
-        interestRepository.saveAll(interests);
+//        List<Interest> interests = req.interests()
+//                .stream()
+//                .map(topic -> Interest.builder()
+//                        .virtualFriend(saveVirtualFriend)
+//                        .topic(topic)
+//                        .build())
+//                .toList();
+//        interestRepository.saveAll(interests);
 
         Conversation conversation = conversationService.createConversation(saveVirtualFriend, user);
         return VirtualFriendResponse.from(saveVirtualFriend, conversation.getConversationId());
@@ -105,7 +106,7 @@ public class VirtualFriendService {
         VirtualFriend virtualFriend = virtualFriendRepository.findById(virtualFriendId);
         List<String> interest = interestRepository.findTopicsByVirtualFriendId(virtualFriendId);
         log.debug("interest : {}", interest);
-        VirtualFriendInfoResponse result = VirtualFriendInfoResponse.from(virtualFriend, interest);
+        VirtualFriendInfoResponse result = VirtualFriendInfoResponse.from(virtualFriend);
         return result;
     }
 
@@ -117,21 +118,22 @@ public class VirtualFriendService {
                 .mbti(req.mbti())
                 .age(req.age())
                 .gender(req.gender())
-                .relationship(req.relationship())
+                .job(req.job())
+                .freeSetting(req.freeSetting())
                 .build();
         VirtualFriend updateFriend = virtualFriendRepository.update(virtualFriendId, virtualFriend);
         interestRepository.deleteInterestByVirtualFriend(updateFriend);
-        List<Interest> interests = req.interests()
-                .stream()
-                .map(topic -> Interest.builder()
-                        .virtualFriend(updateFriend)
-                        .topic(topic)
-                        .build())
-                .toList();
-        interestRepository.saveAll(interests);
+//        List<Interest> interests = req.interests()
+//                .stream()
+//                .map(topic -> Interest.builder()
+//                        .virtualFriend(updateFriend)
+//                        .topic(topic)
+//                        .build())
+//                .toList();
+//        interestRepository.saveAll(interests);
 
-        List<String> topics = interests.stream().map(Interest::getTopic).collect(Collectors.toList());
-        return VirtualFriendInfoResponse.from(updateFriend, topics);
+//        List<String> topics = interests.stream().map(Interest::getTopic).collect(Collectors.toList());
+        return VirtualFriendInfoResponse.from(updateFriend);
     }
 
     public CreateMessageRequestDto createMessageRequestDto(FastFriendMessageRequest request) {

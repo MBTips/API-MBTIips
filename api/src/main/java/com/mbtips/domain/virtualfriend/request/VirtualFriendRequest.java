@@ -12,6 +12,7 @@ import jakarta.validation.constraints.Pattern;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Spliterator;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record VirtualFriendRequest(
@@ -19,8 +20,6 @@ public record VirtualFriendRequest(
         String friendName,
 
         int age,
-
-        String relationship,
 
         Gender gender,
 
@@ -30,7 +29,10 @@ public record VirtualFriendRequest(
         )
         String mbti,
 
-        List<String> interests
+        String job,
+
+        String freeSetting
+
         ){
 
 
@@ -39,7 +41,6 @@ public record VirtualFriendRequest(
                         .user(userEntity)
                         .virtualFriendName(req.friendName)
                         .virtualFriendAge(req.age)
-                        .virtualFriendRelationship(req.relationship)
                         .virtualFriendSex(req.gender)
                         .mbti(req.mbti)
                         .build();
@@ -50,10 +51,10 @@ public record VirtualFriendRequest(
                 return new VirtualFriendRequest(
                         Optional.ofNullable(fastFriendRequest.fastFriendName()).orElse("빠른친구"),
                         Optional.ofNullable(fastFriendRequest.fastFriendAge()).orElse(20),
-                        Optional.ofNullable(fastFriendRequest.fastFriendRelationship()).orElse(null),
                         Optional.ofNullable(fastFriendRequest.gender()).orElse(null),
                         Optional.ofNullable(fastFriendRequest.mbti()).orElse(null),
-                        Optional.ofNullable(fastFriendRequest.interests()).orElse(null)
+                        Optional.ofNullable(fastFriendRequest.fastFriendJob()).orElse(null),
+                        Optional.ofNullable(fastFriendRequest.freeSetting()).orElse(null)
                         );
         }
 }
