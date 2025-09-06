@@ -13,4 +13,6 @@ public interface UserRepository {
     Optional<User> findById(String userId);
 
     void delete(String userId);
+
+    User getReferenceById(String admin);
 }

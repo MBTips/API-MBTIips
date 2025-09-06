@@ -30,8 +30,7 @@ public class FastFriendController {
     @Operation(summary = "빠른대화 생성", description = "빠른 대화 생성을 요청한 후 가상친구Id를 반환받습니다.")
     public ApiResponse<Long> createFastFriendRequest(@Valid @RequestBody FastFriendRequest fastFriendRequest){
         VirtualFriendRequest request = VirtualFriendRequest.from(fastFriendRequest);
-        User user = new User("admin");
-        VirtualFriendResponse result = virtualFriendService.createVirtualFriend(request, user, "fast");
+        VirtualFriendResponse result = virtualFriendService.createVirtualFriend(request, null, "fast");
         Long fastFriendId = result.virtualFriendId();
         return ApiResponse.success(fastFriendId);
     }

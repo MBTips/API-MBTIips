@@ -29,4 +29,9 @@ public class UserRepositoryImpl implements UserRepository {
     public void delete(String userId) {
         userJpaRepository.deleteById(userId);
     }
+
+    @Override
+    public User getReferenceById(String admin) {
+        return userJpaRepository.getReferenceById(admin).toDomain();
+    }
 }

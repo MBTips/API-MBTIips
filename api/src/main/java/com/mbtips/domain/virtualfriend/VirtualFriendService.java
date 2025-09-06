@@ -12,6 +12,7 @@ import com.mbtips.domain.virtualfriend.request.VirtualFriendRequest;
 import com.mbtips.domain.virtualfriend.response.VirtualFriendInfoResponse;
 import com.mbtips.domain.virtualfriend.response.VirtualFriendResponse;
 import com.mbtips.message.interfaces.MessageRepository;
+import com.mbtips.user.interfaces.UserRepository;
 import com.mbtips.virtualfriend.entity.InterestEntity;
 import com.mbtips.virtualfriend.entity.VirtualFriendEntity;
 import com.mbtips.virtualfriend.interfaces.InterestRepository;
@@ -35,6 +36,7 @@ public class VirtualFriendService {
     private final InterestRepository interestRepository;
     private final ConversationRepository conversationRepository;
     private final MessageRepository messageRepository;
+    private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
     public List<VirtualFriendResponse> getVirtualFriendsByUserId(User user) {
@@ -50,6 +52,8 @@ public class VirtualFriendService {
 
     @Transactional
     public VirtualFriendResponse createVirtualFriend(VirtualFriendRequest req, User user, String type) {
+
+        if(type.equals("fast")) user = userRepository.getReferenceById("admin");
 
         VirtualFriend virtualFriend = VirtualFriend.builder()
                 .user(user)
