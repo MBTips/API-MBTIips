@@ -5,6 +5,7 @@ import com.mbtips.domain.fastfriend.controller.dto.request.FastFriendRequest;
 import com.mbtips.domain.virtualfriend.enums.Gender;
 import com.mbtips.user.entity.UserEntity;
 import com.mbtips.virtualfriend.entity.VirtualFriendEntity;
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -17,6 +18,7 @@ import java.util.Spliterator;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record VirtualFriendRequest(
 
+        @Column(nullable = false)
         String friendName,
 
         int age,

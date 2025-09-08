@@ -29,20 +29,20 @@ public class VirtualFriendEntity {
     @Column(nullable = false)
     private String mbti;
 
-    @Column(length = 20, nullable = false)
+    @Column(length = 20, nullable = true)
     private String virtualFriendName;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private int virtualFriendAge;
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 10, nullable = false)
+    @Column(length = 10, nullable = true)
     private Gender virtualFriendSex;
 
-    @Column(length = 30, nullable = false)
+    @Column(length = 30, nullable = true)
     private String friendType;
 
-    @Column(length = 30, nullable = false)
+    @Column(length = 30, nullable = true)
     private String job;
 
     @Column(length = 100, nullable = true)
