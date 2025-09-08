@@ -18,7 +18,7 @@ import java.util.Spliterator;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record VirtualFriendRequest(
 
-        @Column(nullable = false)
+        @NotBlank(message = "friendName은 필수입니다.")
         String friendName,
 
         int age,
