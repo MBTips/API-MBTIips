@@ -29,7 +29,7 @@ public class SecurityConfiguration {
     private final ObjectMapper objectMapper;
 
     private static final String[] AUTH_ALLOW_LIST = {
-            "/swagger-ui/**", "/v3/**", "/api/**"
+            "/swagger-ui/**", "/v3/**", "/api/**", "/chats", "/ws/**"
     };
 
     @Bean
