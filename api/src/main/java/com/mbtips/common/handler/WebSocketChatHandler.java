@@ -31,7 +31,7 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
     private static final String NICKNAME = "nickname";
     private static final String OPEN_CHAT_ID = "open_chat_id";
 
-    final Map<Long, Set<WebSocketSession>> webSocketSessionMap = new ConcurrentHashMap<>();
+    public static final Map<Long, Set<WebSocketSession>> webSocketSessionMap = new ConcurrentHashMap<>();
 
     // 연결
     @Override

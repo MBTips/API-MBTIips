@@ -1,11 +1,13 @@
 package com.mbtips.openChat.application.service;
 
+import com.mbtips.common.handler.WebSocketChatHandler;
 import com.mbtips.domain.openChat.OpenChat;
 import com.mbtips.openChat.application.dto.OpenChatDto;
 import com.mbtips.openChat.interfaces.OpenChatRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -21,7 +23,8 @@ public class OpenChatService {
                 .description(openChatDto.description())
                 .isDeleted(false)
                 .build();
-        openChatRepository.save(openChat);
+        long openChatId = openChatRepository.save(openChat);
+        WebSocketChatHandler.webSocketSessionMap.put(openChatId, new HashSet<>());
     }
 
     public List<OpenChat> findAll() {

@@ -16,8 +16,8 @@ public class OpenChatRepositoryImpl implements OpenChatRepository {
     private final OpenChatJpaRepository openChatJpaRepository;
 
     @Override
-    public void save(OpenChat openChat) {
-        openChatJpaRepository.save(new OpenChatEntity(openChat));
+    public long save(OpenChat openChat) {
+        return openChatJpaRepository.save(new OpenChatEntity(openChat)).getOpenChatId();
     }
 
     @Override

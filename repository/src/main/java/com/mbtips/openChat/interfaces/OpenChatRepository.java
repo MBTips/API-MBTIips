@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface OpenChatRepository {
 
-    void save(OpenChat openChat);
+    long save(OpenChat openChat);
 
     List<OpenChat> findActiveOpenChats();
 }
