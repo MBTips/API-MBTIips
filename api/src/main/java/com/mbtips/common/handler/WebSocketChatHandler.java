@@ -50,7 +50,9 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
         }
 
         Map<String, String> queryParamMap = this.parseQueryParam(query);
+        log.info("queryParamMap : {}", queryParamMap);
         long openChatId = Long.parseLong(queryParamMap.get(OPEN_CHAT_ID));
+        log.info("openChatId : {}", openChatId);
         if (this.checkNickname(openChatId, queryParamMap.get(NICKNAME))) {
             OpenChatMessageDto openChatMessageDto = new OpenChatMessageDto(2, null, OpenChatException.DUPLICATED_NICKNAME.getMessage(), openChatId);
             session.sendMessage(new TextMessage(objectMapper.writeValueAsString(openChatMessageDto)));
