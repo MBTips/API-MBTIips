@@ -71,7 +71,9 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
     @Override
     public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
         String payload = (String) message.getPayload();
+        log.info("message.payload : {}", payload);
         OpenChatMessageDto openChatMessageDto = objectMapper.readValue(payload, OpenChatMessageDto.class);
+        log.info("openChatMessageDto.toString() : {}", openChatMessageDto.toString());
         Set<WebSocketSession> webSocketSessions = webSocketSessionMap.get(openChatMessageDto.openChatId());
 
         if (webSocketSessions == null) {
