@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mbtips.common.constant.Constant;
 import com.mbtips.common.exception.CustomException;
 import com.mbtips.domain.openChat.exception.OpenChatException;
+import com.mbtips.openChat.application.dto.OpenChatDto;
 import com.mbtips.openChat.application.dto.OpenChatMessageDto;
 import com.mbtips.openChat.application.service.OpenChatMessageService;
 import lombok.RequiredArgsConstructor;
@@ -51,9 +52,8 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
         Map<String, String> queryParamMap = this.parseQueryParam(query);
         long openChatId = Long.parseLong(queryParamMap.get(OPEN_CHAT_ID));
         if (this.checkNickname(openChatId, queryParamMap.get(NICKNAME))) {
-            String string = OpenChatException.DUPLICATED_NICKNAME.getMessage();
-            byte[] bytes = string.getBytes();
-            session.sendMessage(new TextMessage(bytes));
+            OpenChatMessageDto openChatMessageDto = new OpenChatMessageDto(2, null, OpenChatException.DUPLICATED_NICKNAME.getMessage(), openChatId);
+            session.sendMessage(new TextMessage(objectMapper.writeValueAsString(openChatMessageDto)));
             throw new CustomException(OpenChatException.DUPLICATED_NICKNAME);
         }
 
@@ -113,6 +113,7 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
     private Map<String, String> parseQueryParam(String query) {
         HashMap<String, String> queryParamMap = new HashMap<>();
         String[] pairs = query.split("&");
+        log.info("parseQueryParam.pairs: {}", Arrays.toString(pairs));
         Arrays.stream(pairs).forEach(pair -> {
             String[] kv = pair.split("=", 2);
             if (kv.length == 2) {
