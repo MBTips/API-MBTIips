@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
+import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
@@ -38,7 +39,7 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
 
     // 연결
     @Override
-    public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+    public void afterConnectionEstablished(WebSocketSession session) throws IOException {
         String query = session.getUri().getQuery();
         log.info("{} connected", query);
 
@@ -50,6 +51,9 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
         Map<String, String> queryParamMap = this.parseQueryParam(query);
         long openChatId = Long.parseLong(queryParamMap.get(OPEN_CHAT_ID));
         if (this.checkNickname(openChatId, queryParamMap.get(NICKNAME))) {
+            String string = OpenChatException.DUPLICATED_NICKNAME.getMessage();
+            byte[] bytes = string.getBytes();
+            session.sendMessage(new TextMessage(bytes));
             throw new CustomException(OpenChatException.DUPLICATED_NICKNAME);
         }
 
@@ -127,6 +131,9 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
             throw new CustomException(OpenChatException.NOT_FOUND_OPEN_CHAT);
         }
         return webSocketSessions.stream()
-                .anyMatch(webSocketSession -> webSocketSession.getAttributes().get(NICKNAME).equals(nickname));
+                .anyMatch(webSocketSession -> webSocketSession.getAttributes()
+                        .get(NICKNAME)
+                        .equals(nickname)
+                );
     }
 }
