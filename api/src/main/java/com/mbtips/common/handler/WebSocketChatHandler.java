@@ -2,6 +2,7 @@ package com.mbtips.common.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mbtips.common.constant.Constant;
+import com.mbtips.common.enums.WebSocketMessageType;
 import com.mbtips.common.exception.CustomException;
 import com.mbtips.domain.openChat.exception.OpenChatException;
 import com.mbtips.openChat.application.dto.OpenChatDto;
@@ -52,9 +53,12 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
         Map<String, String> queryParamMap = this.parseQueryParam(query);
         log.info("queryParamMap : {}", queryParamMap);
         long openChatId = Long.parseLong(queryParamMap.get(OPEN_CHAT_ID));
-        log.info("openChatId : {}", openChatId);
         if (this.checkNickname(openChatId, queryParamMap.get(NICKNAME))) {
-            OpenChatMessageDto openChatMessageDto = new OpenChatMessageDto(2, null, OpenChatException.DUPLICATED_NICKNAME.getMessage(), openChatId);
+            OpenChatMessageDto openChatMessageDto = OpenChatMessageDto.builder()
+                    .type(WebSocketMessageType.DUPLICATE_NICKNAME)
+                    .message(OpenChatException.DUPLICATED_NICKNAME.getMessage())
+                    .openChatId(openChatId)
+                    .build();
             session.sendMessage(new TextMessage(objectMapper.writeValueAsString(openChatMessageDto)));
             throw new CustomException(OpenChatException.DUPLICATED_NICKNAME);
         }
@@ -71,7 +75,6 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
     @Override
     public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
         String payload = (String) message.getPayload();
-        log.info("message.payload : {}", payload);
         OpenChatMessageDto openChatMessageDto = objectMapper.readValue(payload, OpenChatMessageDto.class);
         log.info("openChatMessageDto.toString() : {}", openChatMessageDto.toString());
         Set<WebSocketSession> webSocketSessions = webSocketSessionMap.get(openChatMessageDto.openChatId());
@@ -117,7 +120,6 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
     private Map<String, String> parseQueryParam(String query) {
         HashMap<String, String> queryParamMap = new HashMap<>();
         String[] pairs = query.split("&");
-        log.info("parseQueryParam.pairs: {}", Arrays.toString(pairs));
         Arrays.stream(pairs).forEach(pair -> {
             String[] kv = pair.split("=", 2);
             if (kv.length == 2) {
