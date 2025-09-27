@@ -1,11 +1,10 @@
 package com.mbtips.common.handler;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mbtips.common.constant.Constant;
 import com.mbtips.common.enums.WebSocketMessageType;
 import com.mbtips.common.exception.CustomException;
 import com.mbtips.domain.openChat.exception.OpenChatException;
-import com.mbtips.openChat.application.dto.OpenChatDto;
 import com.mbtips.openChat.application.dto.OpenChatMessageDto;
 import com.mbtips.openChat.application.service.OpenChatMessageService;
 import lombok.RequiredArgsConstructor;
@@ -55,11 +54,11 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
         long openChatId = Long.parseLong(queryParamMap.get(OPEN_CHAT_ID));
         if (this.checkNickname(openChatId, queryParamMap.get(NICKNAME))) {
             OpenChatMessageDto openChatMessageDto = OpenChatMessageDto.builder()
-                    .type(WebSocketMessageType.DUPLICATE_NICKNAME)
+                    .type(WebSocketMessageType.ERROR)
                     .message(OpenChatException.DUPLICATED_NICKNAME.getMessage())
                     .openChatId(openChatId)
                     .build();
-            session.sendMessage(new TextMessage(objectMapper.writeValueAsString(openChatMessageDto)));
+            broadcast(Set.of(session), openChatMessageDto);
             throw new CustomException(OpenChatException.DUPLICATED_NICKNAME);
         }
 
@@ -70,6 +69,12 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
             session.getAttributes().put(entry.getKey(), entry.getValue());
         }
         webSocketSessionMap.computeIfAbsent(openChatId, k -> new HashSet<>()).add(session);
+        OpenChatMessageDto enterNotice = OpenChatMessageDto.builder()
+                .type(WebSocketMessageType.NOTICE)
+                .message(session.getAttributes().get(NICKNAME) + "님이 들어왔습니다.")
+                .openChatId(openChatId)
+                .build();
+        broadcast(webSocketSessionMap.get(openChatId), enterNotice);
     }
 
     @Override
@@ -115,6 +120,12 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
             throw new CustomException(OpenChatException.NOT_FOUND_OPEN_CHAT);
         }
         webSocketSessions.removeIf(webSocketSession -> webSocketSession.getId().equals(session.getId()));
+        OpenChatMessageDto leaveNotice = OpenChatMessageDto.builder()
+                .type(WebSocketMessageType.NOTICE)
+                .message(session.getAttributes().get(NICKNAME) + "님이 나가셨습니다.")
+                .openChatId(openChatId)
+                .build();
+        broadcast(webSocketSessions, leaveNotice);
     }
 
     private Map<String, String> parseQueryParam(String query) {
@@ -142,5 +153,17 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
                         .get(NICKNAME)
                         .equals(nickname)
                 );
+    }
+
+    private void broadcast(Set<WebSocketSession> sessions, OpenChatMessageDto openChatMessageDto) throws JsonProcessingException {
+        String messagePayload = objectMapper.writeValueAsString(openChatMessageDto);
+        sessions.forEach(session -> {
+            try {
+                session.sendMessage(new TextMessage(messagePayload));
+            } catch (IOException e) {
+                log.error("메세지 전송에 실패했습니다. {}", messagePayload);
+                throw new RuntimeException(e);
+            }
+        });
     }
 }
