@@ -17,6 +17,7 @@ public class OpenChatMessageService {
     public long send(OpenChatMessageDto openChatMessageDto) {
         OpenChatMessage openChatMessage = OpenChatMessage.builder()
                 .openChatId(openChatMessageDto.openChatId())
+                .mbti(openChatMessageDto.mbti().name())
                 .nickname(openChatMessageDto.nickname())
                 .message(openChatMessageDto.message())
                 .build();
