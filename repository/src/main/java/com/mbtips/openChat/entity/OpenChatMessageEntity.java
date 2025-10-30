@@ -59,6 +59,7 @@ public class OpenChatMessageEntity {
     public OpenChatMessageEntity(OpenChatMessage openChatMessage) {
         this.openChatMessageId = openChatMessage.getOpenChatMessageId();
         this.openChatId = openChatMessage.getOpenChatId();
+        this.mbti = openChatMessage.getMbti();
         this.nickname = openChatMessage.getNickname();
         this.message = openChatMessage.getMessage();
     }
